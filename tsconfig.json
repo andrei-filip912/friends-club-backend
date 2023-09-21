@@ -17,6 +17,13 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {}
+    "paths": {
+      "@friends-club/common": [
+        "libs/common/src"
+      ],
+      "@friends-club/common/*": [
+        "libs/common/src/*"
+      ]
+    }
   }
 }
