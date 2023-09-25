@@ -167,7 +167,7 @@ const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
 const post_module_1 = __webpack_require__(/*! ./post.module */ "./apps/post/src/post.module.ts");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(post_module_1.PostModule);
-    await app.listen(3005);
+    await app.listen(8002);
 }
 bootstrap();
 

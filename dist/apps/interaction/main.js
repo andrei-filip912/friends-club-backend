@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./apps/upload/src/upload.controller.ts":
-/*!**********************************************!*\
-  !*** ./apps/upload/src/upload.controller.ts ***!
-  \**********************************************/
+/***/ "./apps/interaction/src/interaction.controller.ts":
+/*!********************************************************!*\
+  !*** ./apps/interaction/src/interaction.controller.ts ***!
+  \********************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -20,36 +20,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UploadController = void 0;
+exports.InteractionController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const upload_service_1 = __webpack_require__(/*! ./upload.service */ "./apps/upload/src/upload.service.ts");
-let UploadController = class UploadController {
-    constructor(uploadService) {
-        this.uploadService = uploadService;
+const interaction_service_1 = __webpack_require__(/*! ./interaction.service */ "./apps/interaction/src/interaction.service.ts");
+let InteractionController = class InteractionController {
+    constructor(interactionService) {
+        this.interactionService = interactionService;
     }
     getHello() {
-        return this.uploadService.getHello();
+        return this.interactionService.getHello();
     }
 };
-exports.UploadController = UploadController;
+exports.InteractionController = InteractionController;
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
-], UploadController.prototype, "getHello", null);
-exports.UploadController = UploadController = __decorate([
+], InteractionController.prototype, "getHello", null);
+exports.InteractionController = InteractionController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [typeof (_a = typeof upload_service_1.UploadService !== "undefined" && upload_service_1.UploadService) === "function" ? _a : Object])
-], UploadController);
+    __metadata("design:paramtypes", [typeof (_a = typeof interaction_service_1.InteractionService !== "undefined" && interaction_service_1.InteractionService) === "function" ? _a : Object])
+], InteractionController);
 
 
 /***/ }),
 
-/***/ "./apps/upload/src/upload.module.ts":
-/*!******************************************!*\
-  !*** ./apps/upload/src/upload.module.ts ***!
-  \******************************************/
+/***/ "./apps/interaction/src/interaction.module.ts":
+/*!****************************************************!*\
+  !*** ./apps/interaction/src/interaction.module.ts ***!
+  \****************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -60,28 +60,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UploadModule = void 0;
+exports.InteractionModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const upload_controller_1 = __webpack_require__(/*! ./upload.controller */ "./apps/upload/src/upload.controller.ts");
-const upload_service_1 = __webpack_require__(/*! ./upload.service */ "./apps/upload/src/upload.service.ts");
-let UploadModule = class UploadModule {
+const interaction_controller_1 = __webpack_require__(/*! ./interaction.controller */ "./apps/interaction/src/interaction.controller.ts");
+const interaction_service_1 = __webpack_require__(/*! ./interaction.service */ "./apps/interaction/src/interaction.service.ts");
+let InteractionModule = class InteractionModule {
 };
-exports.UploadModule = UploadModule;
-exports.UploadModule = UploadModule = __decorate([
+exports.InteractionModule = InteractionModule;
+exports.InteractionModule = InteractionModule = __decorate([
     (0, common_1.Module)({
         imports: [],
-        controllers: [upload_controller_1.UploadController],
-        providers: [upload_service_1.UploadService],
+        controllers: [interaction_controller_1.InteractionController],
+        providers: [interaction_service_1.InteractionService],
     })
-], UploadModule);
+], InteractionModule);
 
 
 /***/ }),
 
-/***/ "./apps/upload/src/upload.service.ts":
-/*!*******************************************!*\
-  !*** ./apps/upload/src/upload.service.ts ***!
-  \*******************************************/
+/***/ "./apps/interaction/src/interaction.service.ts":
+/*!*****************************************************!*\
+  !*** ./apps/interaction/src/interaction.service.ts ***!
+  \*****************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -92,17 +92,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UploadService = void 0;
+exports.InteractionService = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-let UploadService = class UploadService {
+let InteractionService = class InteractionService {
     getHello() {
         return 'Hello World!';
     }
 };
-exports.UploadService = UploadService;
-exports.UploadService = UploadService = __decorate([
+exports.InteractionService = InteractionService;
+exports.InteractionService = InteractionService = __decorate([
     (0, common_1.Injectable)()
-], UploadService);
+], InteractionService);
 
 
 /***/ }),
@@ -158,16 +158,16 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 var exports = __webpack_exports__;
-/*!*********************************!*\
-  !*** ./apps/upload/src/main.ts ***!
-  \*********************************/
+/*!**************************************!*\
+  !*** ./apps/interaction/src/main.ts ***!
+  \**************************************/
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
-const upload_module_1 = __webpack_require__(/*! ./upload.module */ "./apps/upload/src/upload.module.ts");
+const interaction_module_1 = __webpack_require__(/*! ./interaction.module */ "./apps/interaction/src/interaction.module.ts");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(upload_module_1.UploadModule);
-    await app.listen(8003);
+    const app = await core_1.NestFactory.create(interaction_module_1.InteractionModule);
+    await app.listen(8001);
 }
 bootstrap();
 
