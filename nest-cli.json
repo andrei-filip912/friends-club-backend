@@ -45,6 +45,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
+    },
+    "interaction": {
+      "type": "application",
+      "root": "apps/interaction",
+      "entryFile": "main",
+      "sourceRoot": "apps/interaction/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/interaction/tsconfig.app.json"
+      }
     }
   }
 }

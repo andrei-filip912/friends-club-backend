@@ -2,9 +2,9 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./apps/post/src/post.controller.ts":
+/***/ "./apps/auth/src/auth.controller.ts":
 /*!******************************************!*\
-  !*** ./apps/post/src/post.controller.ts ***!
+  !*** ./apps/auth/src/auth.controller.ts ***!
   \******************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -20,35 +20,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PostController = void 0;
+exports.AuthController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const post_service_1 = __webpack_require__(/*! ./post.service */ "./apps/post/src/post.service.ts");
-let PostController = class PostController {
-    constructor(postService) {
-        this.postService = postService;
+const auth_service_1 = __webpack_require__(/*! ./auth.service */ "./apps/auth/src/auth.service.ts");
+let AuthController = class AuthController {
+    constructor(authService) {
+        this.authService = authService;
     }
     getHello() {
-        return this.postService.getHello();
+        return this.authService.getHello();
     }
 };
-exports.PostController = PostController;
+exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
-], PostController.prototype, "getHello", null);
-exports.PostController = PostController = __decorate([
+], AuthController.prototype, "getHello", null);
+exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [typeof (_a = typeof post_service_1.PostService !== "undefined" && post_service_1.PostService) === "function" ? _a : Object])
-], PostController);
+    __metadata("design:paramtypes", [typeof (_a = typeof auth_service_1.AuthService !== "undefined" && auth_service_1.AuthService) === "function" ? _a : Object])
+], AuthController);
 
 
 /***/ }),
 
-/***/ "./apps/post/src/post.module.ts":
+/***/ "./apps/auth/src/auth.module.ts":
 /*!**************************************!*\
-  !*** ./apps/post/src/post.module.ts ***!
+  !*** ./apps/auth/src/auth.module.ts ***!
   \**************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -60,27 +60,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PostModule = void 0;
+exports.AuthModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const post_controller_1 = __webpack_require__(/*! ./post.controller */ "./apps/post/src/post.controller.ts");
-const post_service_1 = __webpack_require__(/*! ./post.service */ "./apps/post/src/post.service.ts");
-let PostModule = class PostModule {
+const auth_controller_1 = __webpack_require__(/*! ./auth.controller */ "./apps/auth/src/auth.controller.ts");
+const auth_service_1 = __webpack_require__(/*! ./auth.service */ "./apps/auth/src/auth.service.ts");
+let AuthModule = class AuthModule {
 };
-exports.PostModule = PostModule;
-exports.PostModule = PostModule = __decorate([
+exports.AuthModule = AuthModule;
+exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [],
-        controllers: [post_controller_1.PostController],
-        providers: [post_service_1.PostService],
+        controllers: [auth_controller_1.AuthController],
+        providers: [auth_service_1.AuthService],
     })
-], PostModule);
+], AuthModule);
 
 
 /***/ }),
 
-/***/ "./apps/post/src/post.service.ts":
+/***/ "./apps/auth/src/auth.service.ts":
 /*!***************************************!*\
-  !*** ./apps/post/src/post.service.ts ***!
+  !*** ./apps/auth/src/auth.service.ts ***!
   \***************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -92,17 +92,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PostService = void 0;
+exports.AuthService = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-let PostService = class PostService {
+let AuthService = class AuthService {
     getHello() {
         return 'Hello World!';
     }
 };
-exports.PostService = PostService;
-exports.PostService = PostService = __decorate([
+exports.AuthService = AuthService;
+exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)()
-], PostService);
+], AuthService);
 
 
 /***/ }),
@@ -159,15 +159,15 @@ var __webpack_exports__ = {};
 (() => {
 var exports = __webpack_exports__;
 /*!*******************************!*\
-  !*** ./apps/post/src/main.ts ***!
+  !*** ./apps/auth/src/main.ts ***!
   \*******************************/
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
-const post_module_1 = __webpack_require__(/*! ./post.module */ "./apps/post/src/post.module.ts");
+const auth_module_1 = __webpack_require__(/*! ./auth.module */ "./apps/auth/src/auth.module.ts");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(post_module_1.PostModule);
-    await app.listen(3005);
+    const app = await core_1.NestFactory.create(auth_module_1.AuthModule);
+    await app.listen(3000);
 }
 bootstrap();
 

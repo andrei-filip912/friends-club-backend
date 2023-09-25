@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./apps/post/src/post.controller.ts":
-/*!******************************************!*\
-  !*** ./apps/post/src/post.controller.ts ***!
-  \******************************************/
+/***/ "./apps/upload/src/upload.controller.ts":
+/*!**********************************************!*\
+  !*** ./apps/upload/src/upload.controller.ts ***!
+  \**********************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -20,36 +20,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PostController = void 0;
+exports.UploadController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const post_service_1 = __webpack_require__(/*! ./post.service */ "./apps/post/src/post.service.ts");
-let PostController = class PostController {
-    constructor(postService) {
-        this.postService = postService;
+const upload_service_1 = __webpack_require__(/*! ./upload.service */ "./apps/upload/src/upload.service.ts");
+let UploadController = class UploadController {
+    constructor(uploadService) {
+        this.uploadService = uploadService;
     }
     getHello() {
-        return this.postService.getHello();
+        return this.uploadService.getHello();
     }
 };
-exports.PostController = PostController;
+exports.UploadController = UploadController;
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
-], PostController.prototype, "getHello", null);
-exports.PostController = PostController = __decorate([
+], UploadController.prototype, "getHello", null);
+exports.UploadController = UploadController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [typeof (_a = typeof post_service_1.PostService !== "undefined" && post_service_1.PostService) === "function" ? _a : Object])
-], PostController);
+    __metadata("design:paramtypes", [typeof (_a = typeof upload_service_1.UploadService !== "undefined" && upload_service_1.UploadService) === "function" ? _a : Object])
+], UploadController);
 
 
 /***/ }),
 
-/***/ "./apps/post/src/post.module.ts":
-/*!**************************************!*\
-  !*** ./apps/post/src/post.module.ts ***!
-  \**************************************/
+/***/ "./apps/upload/src/upload.module.ts":
+/*!******************************************!*\
+  !*** ./apps/upload/src/upload.module.ts ***!
+  \******************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -60,28 +60,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PostModule = void 0;
+exports.UploadModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const post_controller_1 = __webpack_require__(/*! ./post.controller */ "./apps/post/src/post.controller.ts");
-const post_service_1 = __webpack_require__(/*! ./post.service */ "./apps/post/src/post.service.ts");
-let PostModule = class PostModule {
+const upload_controller_1 = __webpack_require__(/*! ./upload.controller */ "./apps/upload/src/upload.controller.ts");
+const upload_service_1 = __webpack_require__(/*! ./upload.service */ "./apps/upload/src/upload.service.ts");
+let UploadModule = class UploadModule {
 };
-exports.PostModule = PostModule;
-exports.PostModule = PostModule = __decorate([
+exports.UploadModule = UploadModule;
+exports.UploadModule = UploadModule = __decorate([
     (0, common_1.Module)({
         imports: [],
-        controllers: [post_controller_1.PostController],
-        providers: [post_service_1.PostService],
+        controllers: [upload_controller_1.UploadController],
+        providers: [upload_service_1.UploadService],
     })
-], PostModule);
+], UploadModule);
 
 
 /***/ }),
 
-/***/ "./apps/post/src/post.service.ts":
-/*!***************************************!*\
-  !*** ./apps/post/src/post.service.ts ***!
-  \***************************************/
+/***/ "./apps/upload/src/upload.service.ts":
+/*!*******************************************!*\
+  !*** ./apps/upload/src/upload.service.ts ***!
+  \*******************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -92,17 +92,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PostService = void 0;
+exports.UploadService = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-let PostService = class PostService {
+let UploadService = class UploadService {
     getHello() {
         return 'Hello World!';
     }
 };
-exports.PostService = PostService;
-exports.PostService = PostService = __decorate([
+exports.UploadService = UploadService;
+exports.UploadService = UploadService = __decorate([
     (0, common_1.Injectable)()
-], PostService);
+], UploadService);
 
 
 /***/ }),
@@ -158,16 +158,16 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 var exports = __webpack_exports__;
-/*!*******************************!*\
-  !*** ./apps/post/src/main.ts ***!
-  \*******************************/
+/*!*********************************!*\
+  !*** ./apps/upload/src/main.ts ***!
+  \*********************************/
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
-const post_module_1 = __webpack_require__(/*! ./post.module */ "./apps/post/src/post.module.ts");
+const upload_module_1 = __webpack_require__(/*! ./upload.module */ "./apps/upload/src/upload.module.ts");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(post_module_1.PostModule);
-    await app.listen(3005);
+    const app = await core_1.NestFactory.create(upload_module_1.UploadModule);
+    await app.listen(3002);
 }
 bootstrap();
 
