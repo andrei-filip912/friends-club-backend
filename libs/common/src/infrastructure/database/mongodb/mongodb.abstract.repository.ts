@@ -9,8 +9,9 @@ import {
   ClientSession,
 } from 'mongoose';
 import { AbstractDocument } from './mongodb.abstract.schema';
+import { MongoDbRepository } from '@friends-club/common/domain/Interfaces/interface.mongodb.repository';
 
-export abstract class AbstractRepository<TDocument extends AbstractDocument> {
+export abstract class AbstractRepository<TDocument extends AbstractDocument> implements MongoDbRepository<TDocument> {
   protected abstract readonly logger: Logger;
 
   constructor(
@@ -31,7 +32,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     ).toJSON() as unknown as TDocument;
   }
 
-  async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
+  async findOne(filterQuery: FilterQuery<TDocument>){
     const document = await this.model.findOne(filterQuery, {}, { lean: true }) as TDocument;
 
     if (!document) {
@@ -45,11 +46,11 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   async findOneAndUpdate(
     filterQuery: FilterQuery<TDocument>,
     update: UpdateQuery<TDocument>,
-  ) {
+  ): Promise<TDocument>{
     const document = await this.model.findOneAndUpdate(filterQuery, update, {
       lean: true,
       new: true,
-    });
+    }) as TDocument;
 
     if (!document) {
       this.logger.warn(`Document not found with filterQuery:`, filterQuery);
@@ -62,7 +63,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   async upsert(
     filterQuery: FilterQuery<TDocument>,
     document: Partial<TDocument>,
-  ) {
+  ): Promise<any> {
     return this.model.findOneAndUpdate(filterQuery, document, {
       lean: true,
       upsert: true,
@@ -70,7 +71,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     });
   }
 
-  async find(filterQuery: FilterQuery<TDocument>) {
+  async find(filterQuery: FilterQuery<TDocument>) : Promise<any> {
     return this.model.find(filterQuery, {}, { lean: true });
   }
 

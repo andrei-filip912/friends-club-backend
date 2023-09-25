@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { InteractionService } from './interaction.service';
+import { InteractionService } from '../domain/interaction.service';
 
 @Controller()
 export class InteractionController {

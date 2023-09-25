@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { InteractionModule } from './interaction.module';
+import { InteractionModule } from './infrastructure/interaction.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(InteractionModule);

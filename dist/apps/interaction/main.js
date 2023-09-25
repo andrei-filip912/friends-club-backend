@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./apps/interaction/src/interaction.controller.ts":
-/*!********************************************************!*\
-  !*** ./apps/interaction/src/interaction.controller.ts ***!
-  \********************************************************/
+/***/ "./apps/interaction/src/application/interaction.controller.ts":
+/*!********************************************************************!*\
+  !*** ./apps/interaction/src/application/interaction.controller.ts ***!
+  \********************************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -22,7 +22,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InteractionController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const interaction_service_1 = __webpack_require__(/*! ./interaction.service */ "./apps/interaction/src/interaction.service.ts");
+const interaction_service_1 = __webpack_require__(/*! ../domain/interaction.service */ "./apps/interaction/src/domain/interaction.service.ts");
 let InteractionController = class InteractionController {
     constructor(interactionService) {
         this.interactionService = interactionService;
@@ -46,42 +46,10 @@ exports.InteractionController = InteractionController = __decorate([
 
 /***/ }),
 
-/***/ "./apps/interaction/src/interaction.module.ts":
-/*!****************************************************!*\
-  !*** ./apps/interaction/src/interaction.module.ts ***!
-  \****************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.InteractionModule = void 0;
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const interaction_controller_1 = __webpack_require__(/*! ./interaction.controller */ "./apps/interaction/src/interaction.controller.ts");
-const interaction_service_1 = __webpack_require__(/*! ./interaction.service */ "./apps/interaction/src/interaction.service.ts");
-let InteractionModule = class InteractionModule {
-};
-exports.InteractionModule = InteractionModule;
-exports.InteractionModule = InteractionModule = __decorate([
-    (0, common_1.Module)({
-        imports: [],
-        controllers: [interaction_controller_1.InteractionController],
-        providers: [interaction_service_1.InteractionService],
-    })
-], InteractionModule);
-
-
-/***/ }),
-
-/***/ "./apps/interaction/src/interaction.service.ts":
-/*!*****************************************************!*\
-  !*** ./apps/interaction/src/interaction.service.ts ***!
-  \*****************************************************/
+/***/ "./apps/interaction/src/domain/interaction.service.ts":
+/*!************************************************************!*\
+  !*** ./apps/interaction/src/domain/interaction.service.ts ***!
+  \************************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -103,6 +71,38 @@ exports.InteractionService = InteractionService;
 exports.InteractionService = InteractionService = __decorate([
     (0, common_1.Injectable)()
 ], InteractionService);
+
+
+/***/ }),
+
+/***/ "./apps/interaction/src/infrastructure/interaction.module.ts":
+/*!*******************************************************************!*\
+  !*** ./apps/interaction/src/infrastructure/interaction.module.ts ***!
+  \*******************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.InteractionModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const interaction_controller_1 = __webpack_require__(/*! ../application/interaction.controller */ "./apps/interaction/src/application/interaction.controller.ts");
+const interaction_service_1 = __webpack_require__(/*! ../domain/interaction.service */ "./apps/interaction/src/domain/interaction.service.ts");
+let InteractionModule = class InteractionModule {
+};
+exports.InteractionModule = InteractionModule;
+exports.InteractionModule = InteractionModule = __decorate([
+    (0, common_1.Module)({
+        imports: [],
+        controllers: [interaction_controller_1.InteractionController],
+        providers: [interaction_service_1.InteractionService],
+    })
+], InteractionModule);
 
 
 /***/ }),
@@ -164,7 +164,7 @@ var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
-const interaction_module_1 = __webpack_require__(/*! ./interaction.module */ "./apps/interaction/src/interaction.module.ts");
+const interaction_module_1 = __webpack_require__(/*! ./infrastructure/interaction.module */ "./apps/interaction/src/infrastructure/interaction.module.ts");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(interaction_module_1.InteractionModule);
     await app.listen(8001);

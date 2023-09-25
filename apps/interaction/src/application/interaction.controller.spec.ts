@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InteractionController } from './interaction.controller';
-import { InteractionService } from './interaction.service';
+import { InteractionService } from '../domain/interaction.service';
 
 describe('InteractionController', () => {
   let interactionController: InteractionController;
