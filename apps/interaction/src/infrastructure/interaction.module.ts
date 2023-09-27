@@ -4,6 +4,8 @@ import { InteractionService } from '../domain/interaction.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from '@friends-club/common';
+import { ReactionRepository } from './reaction.repository';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -14,9 +16,10 @@ import { DatabaseModule } from '@friends-club/common';
       }),
       envFilePath: './apps/interaction/.env'
     }),
-    DatabaseModule
+    DatabaseModule,
+    MongooseModule
   ],
   controllers: [InteractionController],
-  providers: [InteractionService],
+  providers: [InteractionService, ReactionRepository],
 })
 export class InteractionModule {}
