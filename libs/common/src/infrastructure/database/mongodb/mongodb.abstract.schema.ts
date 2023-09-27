@@ -1,4 +1,4 @@
-import { IAbstractDocument } from '@friends-club/common/domain/Interfaces/mongodb.interface.schema';
+import { IAbstractDocument } from '@friends-club/common';
 import { Prop, Schema } from '@nestjs/mongoose';
 import { SchemaTypes, Types } from 'mongoose';
 
