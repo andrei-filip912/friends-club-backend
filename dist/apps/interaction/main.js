@@ -99,6 +99,7 @@ const common_2 = __webpack_require__(/*! @friends-club/common */ "./libs/common/
 const reaction_repository_1 = __webpack_require__(/*! ./reaction.repository */ "./apps/interaction/src/infrastructure/reaction.repository.ts");
 const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
 const reaction_schema_1 = __webpack_require__(/*! ./reaction.schema */ "./apps/interaction/src/infrastructure/reaction.schema.ts");
+const common_3 = __webpack_require__(/*! @friends-club/common */ "./libs/common/src/index.ts");
 let InteractionModule = class InteractionModule {
 };
 exports.InteractionModule = InteractionModule;
@@ -109,11 +110,14 @@ exports.InteractionModule = InteractionModule = __decorate([
                 isGlobal: true,
                 validationSchema: Joi.object({
                     MONGODB_URI: Joi.string().required(),
+                    RABBIT_MQ_URI: Joi.string().required(),
+                    RABBIT_MQ_INTERACTION_QUEUE: Joi.string().required(),
                 }),
                 envFilePath: './apps/interaction/.env'
             }),
             common_2.DatabaseModule,
-            mongoose_1.MongooseModule.forFeature([{ name: reaction_schema_1.ReactionDocument.name, schema: reaction_schema_1.ReactionSchema }])
+            mongoose_1.MongooseModule.forFeature([{ name: reaction_schema_1.ReactionDocument.name, schema: reaction_schema_1.ReactionSchema }]),
+            common_3.RmqModule
         ],
         controllers: [interaction_controller_1.InteractionController],
         providers: [interaction_service_1.InteractionService, reaction_repository_1.ReactionRepository],
@@ -214,6 +218,30 @@ exports.ReactionSchema = mongoose_1.SchemaFactory.createForClass(ReactionDocumen
 
 /***/ }),
 
+/***/ "./libs/common/src/domain/Interfaces/mongodb.interface.repository.ts":
+/*!***************************************************************************!*\
+  !*** ./libs/common/src/domain/Interfaces/mongodb.interface.repository.ts ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+
+/***/ }),
+
+/***/ "./libs/common/src/domain/Interfaces/mongodb.interface.schema.ts":
+/*!***********************************************************************!*\
+  !*** ./libs/common/src/domain/Interfaces/mongodb.interface.schema.ts ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+
+/***/ }),
+
 /***/ "./libs/common/src/domain/enums/reaction-type.enum.ts":
 /*!************************************************************!*\
   !*** ./libs/common/src/domain/enums/reaction-type.enum.ts ***!
@@ -257,6 +285,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.module */ "./libs/common/src/infrastructure/database/mongodb/mongodb.module.ts"), exports);
 __exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.abstract.repository */ "./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.repository.ts"), exports);
 __exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.abstract.schema */ "./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.schema.ts"), exports);
+__exportStar(__webpack_require__(/*! ./infrastructure/services/rmq.service */ "./libs/common/src/infrastructure/services/rmq.service.ts"), exports);
+__exportStar(__webpack_require__(/*! ./domain/Interfaces/mongodb.interface.repository */ "./libs/common/src/domain/Interfaces/mongodb.interface.repository.ts"), exports);
+__exportStar(__webpack_require__(/*! ./domain/Interfaces/mongodb.interface.schema */ "./libs/common/src/domain/Interfaces/mongodb.interface.schema.ts"), exports);
+__exportStar(__webpack_require__(/*! ./infrastructure/services/rmq.module */ "./libs/common/src/infrastructure/services/rmq.module.ts"), exports);
 
 
 /***/ }),
@@ -396,6 +428,84 @@ exports.DatabaseModule = DatabaseModule = __decorate([
 
 /***/ }),
 
+/***/ "./libs/common/src/infrastructure/services/rmq.module.ts":
+/*!***************************************************************!*\
+  !*** ./libs/common/src/infrastructure/services/rmq.module.ts ***!
+  \***************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RmqModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const rmq_service_1 = __webpack_require__(/*! ./rmq.service */ "./libs/common/src/infrastructure/services/rmq.service.ts");
+let RmqModule = class RmqModule {
+};
+exports.RmqModule = RmqModule;
+exports.RmqModule = RmqModule = __decorate([
+    (0, common_1.Module)({
+        providers: [rmq_service_1.RmqService],
+        exports: [rmq_service_1.RmqService],
+    })
+], RmqModule);
+;
+
+
+/***/ }),
+
+/***/ "./libs/common/src/infrastructure/services/rmq.service.ts":
+/*!****************************************************************!*\
+  !*** ./libs/common/src/infrastructure/services/rmq.service.ts ***!
+  \****************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RmqService = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
+let RmqService = class RmqService {
+    constructor(configService) {
+        this.configService = configService;
+    }
+    getOptions(queue, noAck = false) {
+        return {
+            transport: microservices_1.Transport.RMQ,
+            options: {
+                urls: [this.configService.get('RABBIT_MQ_URI')],
+                queue: this.configService.get(`RABBIT_MQ${queue}_QUEUE`),
+                noAck,
+                persistent: true,
+            }
+        };
+    }
+};
+exports.RmqService = RmqService;
+exports.RmqService = RmqService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object])
+], RmqService);
+
+
+/***/ }),
+
 /***/ "@nestjs/common":
 /*!*********************************!*\
   !*** external "@nestjs/common" ***!
@@ -423,6 +533,16 @@ module.exports = require("@nestjs/config");
 /***/ ((module) => {
 
 module.exports = require("@nestjs/core");
+
+/***/ }),
+
+/***/ "@nestjs/microservices":
+/*!****************************************!*\
+  !*** external "@nestjs/microservices" ***!
+  \****************************************/
+/***/ ((module) => {
+
+module.exports = require("@nestjs/microservices");
 
 /***/ }),
 
@@ -494,9 +614,12 @@ var exports = __webpack_exports__;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __webpack_require__(/*! @nestjs/core */ "@nestjs/core");
 const interaction_module_1 = __webpack_require__(/*! ./infrastructure/interaction.module */ "./apps/interaction/src/infrastructure/interaction.module.ts");
+const common_1 = __webpack_require__(/*! @friends-club/common */ "./libs/common/src/index.ts");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(interaction_module_1.InteractionModule);
-    await app.listen(8001);
+    const rmqService = app.get(common_1.RmqService);
+    app.connectMicroservice(rmqService.getOptions('INTERACTIONS'));
+    await app.startAllMicroservices();
 }
 bootstrap();
 

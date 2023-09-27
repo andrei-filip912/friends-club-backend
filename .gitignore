@@ -45,4 +45,4 @@ build/config\.gypi
 
 .npmrc
 pnpm-lock.yaml
-/.env
+**/.env

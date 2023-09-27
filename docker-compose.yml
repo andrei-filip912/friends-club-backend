@@ -4,6 +4,24 @@
 version: '2'
 
 services:
+  post:
+    build:
+      context: .
+      dockerfile: ./apps/post/Dockerfile
+      target: development
+    command: pnpm run start:dev post
+    env_file:
+      - ./apps/post/.env
+    # depends_on:
+    #   - mongodb-primary
+    #   - mongodb-secondary
+    #   - mongodb-arbiter
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules # trick to not include node_modules part of the running machine
+    ports:
+     - "8001:8001"
+
   interaction:
     build:
       context: .
@@ -21,6 +39,11 @@ services:
       - /usr/src/app/node_modules # trick to not include node_modules part of the running machine
     ports:
      - "8002:8002"
+  
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'
 
   # Running mongodb in a replica set instead of single image, to allow db transactions
   mongodb-primary:
