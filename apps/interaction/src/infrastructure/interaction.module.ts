@@ -6,6 +6,7 @@ import * as Joi from 'joi';
 import { DatabaseModule } from '@friends-club/common';
 import { ReactionRepository } from './reaction.repository';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ReactionDocument, ReactionSchema } from './reaction.schema';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       envFilePath: './apps/interaction/.env'
     }),
     DatabaseModule,
-    MongooseModule
+    MongooseModule.forFeature([{ name: ReactionDocument.name, schema: ReactionSchema}])
   ],
   controllers: [InteractionController],
   providers: [InteractionService, ReactionRepository],
