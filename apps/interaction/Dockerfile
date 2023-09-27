@@ -1,8 +1,10 @@
-FROM node:alpine As development
+FROM node:20-slim As development
+
+RUN npm install -g pnpm
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package*.json pnpm-lock.yaml ./
 
 RUN pnpm install
 
@@ -10,7 +12,9 @@ COPY . .
 
 RUN pnpm run build
 
-FROM node:alpine as production
+FROM node:20-slim as production
+
+RUN npm install -g pnpm
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}

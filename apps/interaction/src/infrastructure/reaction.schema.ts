@@ -5,12 +5,12 @@ import { ReactionType } from "@friends-club/common/domain/enums/reaction-type.en
 @Schema({ versionKey: false})
 export class ReactionDocument extends AbstractDocument {
     @Prop()
-    userId: String; // may change
+    userId: string; // may change
 
     @Prop()
-    postId: String; // may change
+    postId: string; // may change
 
-    @Prop({ enum: ReactionType })
+    @Prop({ type: String, enum: ReactionType })
     reactionType: ReactionType;
 }
 

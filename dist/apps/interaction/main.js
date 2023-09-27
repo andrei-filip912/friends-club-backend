@@ -96,6 +96,9 @@ const interaction_service_1 = __webpack_require__(/*! ../domain/interaction.serv
 const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
 const Joi = __webpack_require__(/*! joi */ "joi");
 const common_2 = __webpack_require__(/*! @friends-club/common */ "./libs/common/src/index.ts");
+const reaction_repository_1 = __webpack_require__(/*! ./reaction.repository */ "./apps/interaction/src/infrastructure/reaction.repository.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const reaction_schema_1 = __webpack_require__(/*! ./reaction.schema */ "./apps/interaction/src/infrastructure/reaction.schema.ts");
 let InteractionModule = class InteractionModule {
 };
 exports.InteractionModule = InteractionModule;
@@ -109,12 +112,122 @@ exports.InteractionModule = InteractionModule = __decorate([
                 }),
                 envFilePath: './apps/interaction/.env'
             }),
-            common_2.DatabaseModule
+            common_2.DatabaseModule,
+            mongoose_1.MongooseModule.forFeature([{ name: reaction_schema_1.ReactionDocument.name, schema: reaction_schema_1.ReactionSchema }])
         ],
         controllers: [interaction_controller_1.InteractionController],
-        providers: [interaction_service_1.InteractionService],
+        providers: [interaction_service_1.InteractionService, reaction_repository_1.ReactionRepository],
     })
 ], InteractionModule);
+
+
+/***/ }),
+
+/***/ "./apps/interaction/src/infrastructure/reaction.repository.ts":
+/*!********************************************************************!*\
+  !*** ./apps/interaction/src/infrastructure/reaction.repository.ts ***!
+  \********************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var ReactionRepository_1;
+var _a, _b;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReactionRepository = void 0;
+const common_1 = __webpack_require__(/*! @friends-club/common */ "./libs/common/src/index.ts");
+const common_2 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const reaction_schema_1 = __webpack_require__(/*! ./reaction.schema */ "./apps/interaction/src/infrastructure/reaction.schema.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const mongoose_2 = __webpack_require__(/*! mongoose */ "mongoose");
+let ReactionRepository = ReactionRepository_1 = class ReactionRepository extends common_1.AbstractRepository {
+    constructor(reactionModel, connection) {
+        super(reactionModel, connection);
+        this.logger = new common_2.Logger(ReactionRepository_1.name);
+    }
+    ;
+};
+exports.ReactionRepository = ReactionRepository;
+exports.ReactionRepository = ReactionRepository = ReactionRepository_1 = __decorate([
+    (0, common_2.Injectable)(),
+    __param(0, (0, mongoose_1.InjectModel)(reaction_schema_1.ReactionDocument.name)),
+    __param(1, (0, mongoose_1.InjectConnection)()),
+    __metadata("design:paramtypes", [typeof (_a = typeof mongoose_2.Model !== "undefined" && mongoose_2.Model) === "function" ? _a : Object, typeof (_b = typeof mongoose_2.Connection !== "undefined" && mongoose_2.Connection) === "function" ? _b : Object])
+], ReactionRepository);
+
+
+/***/ }),
+
+/***/ "./apps/interaction/src/infrastructure/reaction.schema.ts":
+/*!****************************************************************!*\
+  !*** ./apps/interaction/src/infrastructure/reaction.schema.ts ***!
+  \****************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReactionSchema = exports.ReactionDocument = void 0;
+const common_1 = __webpack_require__(/*! @friends-club/common */ "./libs/common/src/index.ts");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+const reaction_type_enum_1 = __webpack_require__(/*! @friends-club/common/domain/enums/reaction-type.enum */ "./libs/common/src/domain/enums/reaction-type.enum.ts");
+let ReactionDocument = class ReactionDocument extends common_1.AbstractDocument {
+};
+exports.ReactionDocument = ReactionDocument;
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReactionDocument.prototype, "userId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ReactionDocument.prototype, "postId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: String, enum: reaction_type_enum_1.ReactionType }),
+    __metadata("design:type", typeof (_a = typeof reaction_type_enum_1.ReactionType !== "undefined" && reaction_type_enum_1.ReactionType) === "function" ? _a : Object)
+], ReactionDocument.prototype, "reactionType", void 0);
+exports.ReactionDocument = ReactionDocument = __decorate([
+    (0, mongoose_1.Schema)({ versionKey: false })
+], ReactionDocument);
+exports.ReactionSchema = mongoose_1.SchemaFactory.createForClass(ReactionDocument);
+
+
+/***/ }),
+
+/***/ "./libs/common/src/domain/enums/reaction-type.enum.ts":
+/*!************************************************************!*\
+  !*** ./libs/common/src/domain/enums/reaction-type.enum.ts ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReactionType = void 0;
+var ReactionType;
+(function (ReactionType) {
+    ReactionType[ReactionType["like"] = 0] = "like";
+    ReactionType[ReactionType["dislike"] = 1] = "dislike";
+})(ReactionType || (exports.ReactionType = ReactionType = {}));
 
 
 /***/ }),
@@ -141,46 +254,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.abstract.module */ "./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.module.ts"), exports);
+__exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.module */ "./libs/common/src/infrastructure/database/mongodb/mongodb.module.ts"), exports);
 __exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.abstract.repository */ "./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.repository.ts"), exports);
 __exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.abstract.schema */ "./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.schema.ts"), exports);
-
-
-/***/ }),
-
-/***/ "./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.module.ts":
-/*!************************************************************************************!*\
-  !*** ./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.module.ts ***!
-  \************************************************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.DatabaseModule = void 0;
-const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
-const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
-let DatabaseModule = class DatabaseModule {
-};
-exports.DatabaseModule = DatabaseModule;
-exports.DatabaseModule = DatabaseModule = __decorate([
-    (0, common_1.Module)({
-        imports: [
-            mongoose_1.MongooseModule.forRootAsync({
-                useFactory: (configService) => ({
-                    uri: configService.get('MONGODB_URI'),
-                }),
-                inject: [config_1.ConfigService],
-            }),
-        ],
-    })
-], DatabaseModule);
 
 
 /***/ }),
@@ -279,6 +355,43 @@ __decorate([
 exports.AbstractDocument = AbstractDocument = __decorate([
     (0, mongoose_1.Schema)()
 ], AbstractDocument);
+
+
+/***/ }),
+
+/***/ "./libs/common/src/infrastructure/database/mongodb/mongodb.module.ts":
+/*!***************************************************************************!*\
+  !*** ./libs/common/src/infrastructure/database/mongodb/mongodb.module.ts ***!
+  \***************************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DatabaseModule = void 0;
+const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
+const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
+const mongoose_1 = __webpack_require__(/*! @nestjs/mongoose */ "@nestjs/mongoose");
+let DatabaseModule = class DatabaseModule {
+};
+exports.DatabaseModule = DatabaseModule;
+exports.DatabaseModule = DatabaseModule = __decorate([
+    (0, common_1.Module)({
+        imports: [
+            mongoose_1.MongooseModule.forRootAsync({
+                useFactory: (configService) => ({
+                    uri: configService.get('MONGODB_URI'),
+                }),
+                inject: [config_1.ConfigService],
+            }),
+        ],
+    })
+], DatabaseModule);
 
 
 /***/ }),
