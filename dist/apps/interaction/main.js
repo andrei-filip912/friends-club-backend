@@ -285,10 +285,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.module */ "./libs/common/src/infrastructure/database/mongodb/mongodb.module.ts"), exports);
 __exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.abstract.repository */ "./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.repository.ts"), exports);
 __exportStar(__webpack_require__(/*! ./infrastructure/database/mongodb/mongodb.abstract.schema */ "./libs/common/src/infrastructure/database/mongodb/mongodb.abstract.schema.ts"), exports);
-__exportStar(__webpack_require__(/*! ./infrastructure/services/rmq.service */ "./libs/common/src/infrastructure/services/rmq.service.ts"), exports);
+__exportStar(__webpack_require__(/*! ./infrastructure/services/rmq/rmq.service */ "./libs/common/src/infrastructure/services/rmq/rmq.service.ts"), exports);
 __exportStar(__webpack_require__(/*! ./domain/Interfaces/mongodb.interface.repository */ "./libs/common/src/domain/Interfaces/mongodb.interface.repository.ts"), exports);
 __exportStar(__webpack_require__(/*! ./domain/Interfaces/mongodb.interface.schema */ "./libs/common/src/domain/Interfaces/mongodb.interface.schema.ts"), exports);
-__exportStar(__webpack_require__(/*! ./infrastructure/services/rmq.module */ "./libs/common/src/infrastructure/services/rmq.module.ts"), exports);
+__exportStar(__webpack_require__(/*! ./infrastructure/services/rmq/rmq.module */ "./libs/common/src/infrastructure/services/rmq/rmq.module.ts"), exports);
 
 
 /***/ }),
@@ -428,10 +428,10 @@ exports.DatabaseModule = DatabaseModule = __decorate([
 
 /***/ }),
 
-/***/ "./libs/common/src/infrastructure/services/rmq.module.ts":
-/*!***************************************************************!*\
-  !*** ./libs/common/src/infrastructure/services/rmq.module.ts ***!
-  \***************************************************************/
+/***/ "./libs/common/src/infrastructure/services/rmq/rmq.module.ts":
+/*!*******************************************************************!*\
+  !*** ./libs/common/src/infrastructure/services/rmq/rmq.module.ts ***!
+  \*******************************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -444,7 +444,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RmqModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-const rmq_service_1 = __webpack_require__(/*! ./rmq.service */ "./libs/common/src/infrastructure/services/rmq.service.ts");
+const rmq_service_1 = __webpack_require__(/*! ./rmq.service */ "./libs/common/src/infrastructure/services/rmq/rmq.service.ts");
 let RmqModule = class RmqModule {
 };
 exports.RmqModule = RmqModule;
@@ -459,10 +459,10 @@ exports.RmqModule = RmqModule = __decorate([
 
 /***/ }),
 
-/***/ "./libs/common/src/infrastructure/services/rmq.service.ts":
-/*!****************************************************************!*\
-  !*** ./libs/common/src/infrastructure/services/rmq.service.ts ***!
-  \****************************************************************/
+/***/ "./libs/common/src/infrastructure/services/rmq/rmq.service.ts":
+/*!********************************************************************!*\
+  !*** ./libs/common/src/infrastructure/services/rmq/rmq.service.ts ***!
+  \********************************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 

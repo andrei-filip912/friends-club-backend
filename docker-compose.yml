@@ -10,8 +10,8 @@ services:
       dockerfile: ./apps/post/Dockerfile
       target: development
     command: pnpm run start:dev post
-    env_file:
-      - ./apps/post/.env
+    # env_file:
+    #   - ./apps/post/.env
     # depends_on:
     #   - mongodb-primary
     #   - mongodb-secondary
