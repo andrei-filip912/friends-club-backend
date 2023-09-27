@@ -8,7 +8,7 @@ import { DatabaseModule } from '@friends-club/common';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      // isGlobal: true,
+      isGlobal: true,
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
       }),

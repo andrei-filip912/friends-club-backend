@@ -103,6 +103,7 @@ exports.InteractionModule = InteractionModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({
+                isGlobal: true,
                 validationSchema: Joi.object({
                     MONGODB_URI: Joi.string().required(),
                 }),
