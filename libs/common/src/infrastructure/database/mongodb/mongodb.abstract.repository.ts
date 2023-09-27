@@ -9,7 +9,7 @@ import {
   ClientSession,
 } from 'mongoose';
 import { AbstractDocument } from './mongodb.abstract.schema';
-import { MongoDbRepository } from '@friends-club/common/domain/Interfaces/interface.mongodb.repository';
+import { MongoDbRepository } from '@friends-club/common/domain/Interfaces/mongodb.interface.repository';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> implements MongoDbRepository<TDocument> {
   protected abstract readonly logger: Logger;
