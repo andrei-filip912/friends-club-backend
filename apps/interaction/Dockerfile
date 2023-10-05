@@ -10,6 +10,8 @@ RUN pnpm install
 
 COPY . .
 
+EXPOSE 3001
+
 RUN pnpm run build
 
 FROM node:20-slim as production
@@ -28,5 +30,7 @@ RUN pnpm install --only=production
 COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
+
+EXPOSE 3001
 
 CMD ["node", "dist/apps/interaction/main"]

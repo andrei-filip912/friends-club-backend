@@ -18,17 +18,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var _a;
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InteractionController = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const interaction_service_1 = __webpack_require__(/*! ../domain/interaction.service */ "./apps/interaction/src/domain/interaction.service.ts");
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+const microservices_2 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+const common_2 = __webpack_require__(/*! @friends-club/common */ "./libs/common/src/index.ts");
 let InteractionController = class InteractionController {
-    constructor(interactionService) {
+    constructor(interactionService, rmqService) {
         this.interactionService = interactionService;
+        this.rmqService = rmqService;
     }
     getHello() {
         return this.interactionService.getHello();
+    }
+    async handleOrderCreated(data, context) {
+        this.interactionService.createInteraction(data);
+        console.log(data);
+        this.rmqService.ack(context);
     }
 };
 exports.InteractionController = InteractionController;
@@ -38,9 +50,17 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
 ], InteractionController.prototype, "getHello", null);
+__decorate([
+    (0, microservices_1.EventPattern)('post_created'),
+    __param(0, (0, microservices_1.Payload)()),
+    __param(1, (0, microservices_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, typeof (_c = typeof microservices_2.RmqContext !== "undefined" && microservices_2.RmqContext) === "function" ? _c : Object]),
+    __metadata("design:returntype", Promise)
+], InteractionController.prototype, "handleOrderCreated", null);
 exports.InteractionController = InteractionController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [typeof (_a = typeof interaction_service_1.InteractionService !== "undefined" && interaction_service_1.InteractionService) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof interaction_service_1.InteractionService !== "undefined" && interaction_service_1.InteractionService) === "function" ? _a : Object, typeof (_b = typeof common_2.RmqService !== "undefined" && common_2.RmqService) === "function" ? _b : Object])
 ], InteractionController);
 
 
@@ -59,16 +79,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var InteractionService_1;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InteractionService = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
-let InteractionService = class InteractionService {
+let InteractionService = InteractionService_1 = class InteractionService {
+    constructor() {
+        this.logger = new common_1.Logger(InteractionService_1.name);
+    }
     getHello() {
         return 'Hello World!';
     }
+    createInteraction(data) {
+        this.logger.log("Got an event!", data);
+    }
 };
 exports.InteractionService = InteractionService;
-exports.InteractionService = InteractionService = __decorate([
+exports.InteractionService = InteractionService = InteractionService_1 = __decorate([
     (0, common_1.Injectable)()
 ], InteractionService);
 
@@ -441,14 +468,38 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var RmqModule_1;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RmqModule = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const rmq_service_1 = __webpack_require__(/*! ./rmq.service */ "./libs/common/src/infrastructure/services/rmq/rmq.service.ts");
-let RmqModule = class RmqModule {
+const microservices_1 = __webpack_require__(/*! @nestjs/microservices */ "@nestjs/microservices");
+const config_1 = __webpack_require__(/*! @nestjs/config */ "@nestjs/config");
+let RmqModule = RmqModule_1 = class RmqModule {
+    static register({ name }) {
+        return {
+            module: RmqModule_1,
+            imports: [
+                microservices_1.ClientsModule.registerAsync([
+                    {
+                        name,
+                        useFactory: (configService) => ({
+                            transport: microservices_1.Transport.RMQ,
+                            options: {
+                                urls: [configService.get('RABBIT_MQ_URI')],
+                                queue: configService.get(`RABBIT_MQ_${name}_QUEUE`),
+                            },
+                        }),
+                        inject: [config_1.ConfigService],
+                    }
+                ])
+            ],
+            exports: [microservices_1.ClientsModule],
+        };
+    }
 };
 exports.RmqModule = RmqModule;
-exports.RmqModule = RmqModule = __decorate([
+exports.RmqModule = RmqModule = RmqModule_1 = __decorate([
     (0, common_1.Module)({
         providers: [rmq_service_1.RmqService],
         exports: [rmq_service_1.RmqService],
@@ -490,11 +541,16 @@ let RmqService = class RmqService {
             transport: microservices_1.Transport.RMQ,
             options: {
                 urls: [this.configService.get('RABBIT_MQ_URI')],
-                queue: this.configService.get(`RABBIT_MQ${queue}_QUEUE`),
+                queue: this.configService.get(`RABBIT_MQ_${queue}_QUEUE`),
                 noAck,
                 persistent: true,
             }
         };
+    }
+    ack(context) {
+        const channel = context.getChannelRef();
+        const originalMessage = context.getMessage();
+        channel.ack(originalMessage);
     }
 };
 exports.RmqService = RmqService;
@@ -618,7 +674,7 @@ const common_1 = __webpack_require__(/*! @friends-club/common */ "./libs/common/
 async function bootstrap() {
     const app = await core_1.NestFactory.create(interaction_module_1.InteractionModule);
     const rmqService = app.get(common_1.RmqService);
-    app.connectMicroservice(rmqService.getOptions('INTERACTIONS'));
+    app.connectMicroservice(rmqService.getOptions('INTERACTION'));
     await app.startAllMicroservices();
 }
 bootstrap();
