@@ -12,7 +12,7 @@ COPY . .
 
 RUN pnpm run build
 
-EXPOSE 3000
+EXPOSE 8000
 
 FROM node:20-slim as production
 
@@ -31,6 +31,6 @@ COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-EXPOSE 3000
+EXPOSE 8000
 
 CMD ["node", "dist/apps/post/main"]
