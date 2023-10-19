@@ -1,3 +1,4 @@
+// steps: git commit, pnpm version patch, pnpm run build, pnpm publish --no-git-checks
 export * from './infrastructure/database/mongodb/mongodb.module';
 export * from './infrastructure/database/mongodb/mongodb.abstract.repository';
 export * from './infrastructure/database/mongodb/mongodb.abstract.schema';

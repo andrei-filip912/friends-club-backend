@@ -1,9 +1,8 @@
 {
-  "name": "common",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
+  "name": "@friends-club/common",
+  "version": "0.0.2",
+  "description": "Friend's club common module.",
+  "author": "andrei-filip912",
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",

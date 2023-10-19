@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@friends-club/common':
+    specifier: ^0.0.2
+    version: 0.0.2
   '@nestjs/common':
     specifier: ^10.0.0
     version: 10.2.7(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -571,6 +574,40 @@ packages:
     resolution: {integrity: sha512-HxjQ8Qn+4SI3/AFv6sOrDB+g6PpUTDwSJiQqOrnneEk8L71161srI9gjzzZvYVbzHiVg/BvcH95+cK/zfIt4pg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@friends-club/common@0.0.2:
+    resolution: {integrity: sha512-OOZHu1TCvNlx6LFVpIG3jLACn3xPRFgh/D+bc8+wzhknUxowxoyyj6i7t3WqbHXy5WsPMtvf/FHnn2in4gbhOA==}
+    dependencies:
+      '@nestjs/common': 10.2.7(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/config': 3.1.1(@nestjs/common@10.2.7)(reflect-metadata@0.1.13)
+      '@nestjs/core': 10.2.7(@nestjs/common@10.2.7)(@nestjs/microservices@10.2.7)(@nestjs/platform-express@10.2.7)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/microservices': 10.2.7(@nestjs/common@10.2.7)(@nestjs/core@10.2.7)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/mongoose': 10.0.1(@nestjs/common@10.2.7)(@nestjs/core@10.2.7)(mongoose@7.6.3)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/platform-express': 10.2.7(@nestjs/common@10.2.7)(@nestjs/core@10.2.7)
+      joi: 17.11.0
+      mongoose: 7.6.3
+      reflect-metadata: 0.1.13
+      rxjs: 7.8.1
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@grpc/grpc-js'
+      - '@mongodb-js/zstd'
+      - '@nestjs/websockets'
+      - amqp-connection-manager
+      - amqplib
+      - cache-manager
+      - class-transformer
+      - class-validator
+      - encoding
+      - ioredis
+      - kafkajs
+      - kerberos
+      - mongodb-client-encryption
+      - mqtt
+      - nats
+      - snappy
+      - supports-color
+    dev: false
 
   /@hapi/hoek@9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}

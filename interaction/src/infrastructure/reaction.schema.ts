@@ -1,6 +1,6 @@
 import { AbstractDocument } from "@friends-club/common";
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
-import { ReactionType } from "@friends-club/common/domain/enums/reaction-type.enum";
+import { ReactionType } from "@friends-club/common";
 
 @Schema({ versionKey: false})
 export class ReactionDocument extends AbstractDocument {
