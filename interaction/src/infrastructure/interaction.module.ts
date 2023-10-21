@@ -4,7 +4,7 @@ import { InteractionService } from '../domain/interaction.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from '@friends-club/common';
-import { ReactionRepository } from './reaction.repository';
+// import { ReactionRepository } from './reaction.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ReactionDocument, ReactionSchema } from './reaction.schema';
 import { RmqModule } from '@friends-club/common';
@@ -18,7 +18,6 @@ import { RmqModule } from '@friends-club/common';
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_INTERACTION_QUEUE: Joi.string().required(),
       }),
-      envFilePath: './.env',
     }),
     DatabaseModule,
     MongooseModule.forFeature([
@@ -27,6 +26,7 @@ import { RmqModule } from '@friends-club/common';
     RmqModule,
   ],
   controllers: [InteractionController],
-  providers: [InteractionService, ReactionRepository],
+  providers: [InteractionService],
+  // ReactionRepository
 })
 export class InteractionModule {}
