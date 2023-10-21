@@ -18,9 +18,9 @@ services:
       - mongodb-arbiter
       - rabbitmq
       - interaction
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules # trick to not include node_modules part of the running machine
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules # trick to not include node_modules part of the running machine
     ports:
      - "3000:3000"
 
@@ -37,9 +37,9 @@ services:
       - mongodb-secondary
       - mongodb-arbiter
       - rabbitmq
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules # trick to not include node_modules part of the running machine
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules # trick to not include node_modules part of the running machine
     ports:
      - "3001:3001"
   
