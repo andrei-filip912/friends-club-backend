@@ -18,8 +18,7 @@ jobs:
         run: pnpm install
     
       - name: Lint code
-        run: pnpm run lint -- --fix
-        working-directory: apps/interaction
+        run: npx eslint apps/interaction/**/*.ts --fix
 
       - name: Create build
         run: npx nest build interaction 
