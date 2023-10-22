@@ -3,7 +3,7 @@ name: Test
 on: 
   pull_request:
     paths:
-      - "apps/interaction/**"
+      - "apps/post/**"
 
 jobs:
   build:
@@ -18,11 +18,11 @@ jobs:
         run: pnpm install
     
       - name: Lint code
-        run: npx eslint apps/interaction/**/*.ts --fix
+        run: npx eslint apps/post/**/*.ts --fix
 
       - name: Create build
-        run: npx nest build interaction 
+        run: npx nest build post 
 
       - name: Run tests
-        run: pnpm run test --testPathPattern=interaction
+        run: pnpm run test --testPathPattern=post
       

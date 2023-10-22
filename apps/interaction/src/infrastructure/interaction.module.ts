@@ -18,11 +18,13 @@ import { RmqModule } from '@friends-club/common';
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_INTERACTION_QUEUE: Joi.string().required(),
       }),
-      envFilePath: './apps/interaction/.env'
+      envFilePath: './apps/interaction/.env',
     }),
     DatabaseModule,
-    MongooseModule.forFeature([{ name: ReactionDocument.name, schema: ReactionSchema}]),
-    RmqModule
+    MongooseModule.forFeature([
+      { name: ReactionDocument.name, schema: ReactionSchema },
+    ]),
+    RmqModule,
   ],
   controllers: [InteractionController],
   providers: [InteractionService, ReactionRepository],
