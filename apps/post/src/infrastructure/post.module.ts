@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { PostController } from './post.controller';
-import { PostService } from './post.service';
+import { PostController } from '../application/post.controller';
+import { PostService } from '../domain/services/post.service';
 import { RmqModule } from '@friends-club/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { INTERACTION_SERVICE } from './services';
+import { INTERACTION_SERVICE } from '../domain/constants/services';
 
 @Module({
   imports: [
