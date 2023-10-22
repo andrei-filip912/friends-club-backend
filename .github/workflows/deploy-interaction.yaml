@@ -15,11 +15,9 @@ jobs:
       # - run: docker build -t af912/interaction-friends-club -f ./apps/interaction/Dockerfile .
       - name: Create a symbolic link to Dockerfile
         run: ln -s apps/interaction/Dockerfile Dockerfile
-        working-directory: $GITHUB_WORKSPACE
 
       - name: Build Docker image
         run: docker build -t af912/interaction-friends-club .
-        working-directory: $GITHUB_WORKSPACE
 
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
@@ -27,7 +25,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push the docker image
-        run: docker push af912/auth-tickets
+        run: docker push af912/interaction-friends-club
 
 # - uses: digitalocean/action-doctl@v2
 #   with:
