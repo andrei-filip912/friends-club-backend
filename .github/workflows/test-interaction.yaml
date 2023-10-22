@@ -10,6 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm install -g pnpm
-      - run: pnpm install && npx nest build interaction && pnpm run test --testPathPattern=interaction
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependecies
+        run: pnpm install
+
+      - name: Create build
+        run: npx nest build interaction 
+
+      - name: Run tests
+        run: pnpm run test --testPathPattern=interaction
       
