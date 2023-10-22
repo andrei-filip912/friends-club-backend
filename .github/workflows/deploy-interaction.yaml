@@ -13,6 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - run: ls
+      
       - name: Build Docker image
         run: docker build -t af912/interaction-friends-club --build-arg NODE_ENV=production -f ./apps/interaction/Dockerfile .
 
