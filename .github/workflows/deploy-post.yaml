@@ -1,11 +1,11 @@
-name: Deploy interaction
+name: Deploy post
 
 on:
   push:
     branches:
       - main
     paths:
-      - "apps/interaction/**"
+      - "apps/post/**"
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
         run: pnpm install
       
       - name: Build Docker image
-        run: docker build -t af912/interaction-friends-club --build-arg NODE_ENV=production -f ./apps/interaction/Dockerfile .
+        run: docker build -t af912/post-friends-club --build-arg NODE_ENV=production -f ./apps/post/Dockerfile .
 
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
@@ -28,4 +28,4 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push the docker image
-        run: docker push af912/interaction-friends-club
+        run: docker push af912/post-friends-club
