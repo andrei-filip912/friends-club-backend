@@ -9,7 +9,6 @@ export class InteractionService {
   }
 
   createInteraction(data: any) {
-    this.logger.log("Got an event!", data);
+    this.logger.log('Got an event!', data);
   }
-
 }

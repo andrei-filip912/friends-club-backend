@@ -8,8 +8,8 @@ import { RmqService } from '@friends-club/common';
 export class InteractionController {
   constructor(
     private readonly interactionService: InteractionService,
-    private readonly rmqService: RmqService
-    ) {}
+    private readonly rmqService: RmqService,
+  ) {}
 
   @Get()
   getHello(): string {
