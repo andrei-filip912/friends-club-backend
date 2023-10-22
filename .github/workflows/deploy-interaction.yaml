@@ -12,12 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # - run: docker build -t af912/interaction-friends-club -f ./apps/interaction/Dockerfile .
-      - name: Create a symbolic link to Dockerfile
-        run: ln -s apps/interaction/Dockerfile Dockerfile
-
+     
       - name: Build Docker image
-        run: docker build -t af912/interaction-friends-club .
+        run: docker build -t af912/interaction-friends-club -f apps/interaction/Dockerfile .
 
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
