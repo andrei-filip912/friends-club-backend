@@ -65,7 +65,6 @@
       "ts"
     ],
     "rootDir": ".",
-    "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
@@ -77,6 +76,10 @@
     "roots": [
       "<rootDir>/apps/",
       "<rootDir>/libs/"
+    ],
+    "testMatch": [
+      "**/post/**/*.spec.ts",
+      "**/interaction/**/*.spec.ts"
     ],
     "moduleNameMapper": {
       "^@friends-club/common(|/.*)$": "<rootDir>/libs/common/src/$1"
