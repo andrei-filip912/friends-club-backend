@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm install -g pnpm
-      - run: pnpm install --frozen-lockfile && nest build interaction && pnpm run test --testPathPattern=interaction
+      - run: pnpm install && nest build interaction && pnpm run test --testPathPattern=interaction
