@@ -13,11 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Print current directory
-        run: pwd && ls -la
-
       - name: Build Docker image
-        run: docker build -f apps/interaction/Dockerfile ../../ -t af912/interaction-friends-club
+        run: docker build -t af912/interaction-friends-club --build-arg NODE_ENV=production -f ./apps/interaction/Dockerfile .
 
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:

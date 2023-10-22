@@ -14,6 +14,7 @@ EXPOSE 3001
 
 RUN pnpm run build
 
+
 FROM node:20-slim as production
 
 RUN npm install -g pnpm
