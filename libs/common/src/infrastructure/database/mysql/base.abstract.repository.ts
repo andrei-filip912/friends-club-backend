@@ -1,37 +1,79 @@
 import { BaseInterfaceRepository } from '../../../domain/Interfaces/mysql.interface.repository';
 import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
 import { AbstractEntity } from './base.abstract.entity';
+import { AggregateRoot } from '@nestjs/cqrs';
+import { EntityDbEntityFactory } from './entity-dbEntity.factory';
 
-export abstract class BaseAbstractRepository<T extends AbstractEntity<T>>
-  implements BaseInterfaceRepository<T>
+export abstract class BaseAbstractRepository<
+  TDbEntity extends AbstractEntity,
+  TEntity extends AggregateRoot,
+> implements BaseInterfaceRepository<TEntity>
 {
-  private readonly respository: Repository<T>;
-
-  protected constructor(respository: Repository<T>) {
+  protected readonly respository: Repository<TDbEntity>;
+  protected readonly entityDbEntityFactory: EntityDbEntityFactory<
+    TDbEntity,
+    TEntity
+  >;
+  protected constructor(
+    respository: Repository<TDbEntity>,
+    entityDbEntityFactory: EntityDbEntityFactory<TDbEntity, TEntity>,
+  ) {
     this.respository = respository;
+    this.entityDbEntityFactory = entityDbEntityFactory;
   }
 
-  public async create(data: T | any): Promise<T> {
-    return await this.respository.save(data);
+  public async create(data: TEntity | any): Promise<TEntity> {
+    return this.respository.save(data);
   }
 
-  public async findOneById(id: number): Promise<T | null> {
-    // nasty type casting because of typeorm bug
-    return await this.respository.findOne({
-      where: { id } as unknown as FindOptionsWhere<T>,
+  public async findOneById(id: number): Promise<TEntity | null> {
+    const dbEntity = await this.respository.findOne({
+      where: { id } as FindOptionsWhere<TDbEntity>,
     });
+
+    // Use your factory to create the domain entity
+    if (dbEntity) {
+      const entity = this.entityDbEntityFactory.createFromDbEntity(dbEntity);
+      return entity;
+    }
+    return null;
   }
 
-  public async findByCondition(filterCondition: any): Promise<T | null> {
-    return await this.respository.findOne({ where: filterCondition });
+  public async findByCondition(filterCondition: any): Promise<TEntity | null> {
+    const dbEntity = await this.respository.findOne({ where: filterCondition });
+
+    // Use your factory to create the domain entity
+    if (dbEntity) {
+      const entity = this.entityDbEntityFactory.createFromDbEntity(dbEntity);
+      return entity;
+    }
+    return null;
   }
 
-  public async findWithRelations(relations: any): Promise<T[]> {
-    return await this.respository.find(relations);
+  public async findWithRelations(relations: any): Promise<TEntity[]> {
+    const dbEntities = await this.respository.find(relations);
+
+    // Use your factory to create the domain entity
+    const entities: TEntity[] = [];
+    if (dbEntities) {
+      dbEntities.forEach((element) => {
+        entities.push(this.entityDbEntityFactory.createFromDbEntity(element));
+      });
+    }
+    return entities;
   }
 
-  public async findAll(): Promise<T[]> {
-    return await this.respository.find();
+  public async findAll(): Promise<TEntity[]> {
+    const dbEntities = await this.respository.find();
+
+    // Use your factory to create the domain entity
+    const entities: TEntity[] = [];
+    if (dbEntities) {
+      dbEntities.forEach((element) => {
+        entities.push(this.entityDbEntityFactory.createFromDbEntity(element));
+      });
+    }
+    return entities;
   }
 
   public async remove(id: string): Promise<DeleteResult> {

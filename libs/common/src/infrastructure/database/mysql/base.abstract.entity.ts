@@ -4,7 +4,7 @@ import {
   // UpdateDateColumn,
 } from 'typeorm';
 
-export class AbstractEntity<T> {
+export class AbstractEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,7 +18,7 @@ export class AbstractEntity<T> {
   // })
   // updatedAt: Date;
 
-  constructor(entity: Partial<T>) {
+  constructor(entity: any) {
     Object.assign(this, entity);
   }
 }
