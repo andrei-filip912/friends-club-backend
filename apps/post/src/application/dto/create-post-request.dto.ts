@@ -1,4 +1,4 @@
 export class CreatePostRequest {
   caption: string;
-  image: Blob;
+  image_id: string;
 }

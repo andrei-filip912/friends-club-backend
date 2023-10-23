@@ -8,3 +8,4 @@ export * from './infrastructure/services/rmq/rmq.module';
 export * from './infrastructure/database/mysql/base.abstract.entity';
 export * from './infrastructure/database/mysql/entity-dbEntity.factory';
 export * from './infrastructure/database/mysql/base.abstract.repository';
+export * from './infrastructure/database/mysql/entity.factory';
