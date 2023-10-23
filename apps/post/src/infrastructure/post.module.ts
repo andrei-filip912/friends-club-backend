@@ -34,6 +34,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   providers: [
     PostService,
     PostRepository,
+    // {
+    //   provide: 'PostRepositoryInterface',
+    //   useClass: PostRepository
+    // }
     PostDbEntity,
     PostFactory,
     ...PostCommandHandlers,

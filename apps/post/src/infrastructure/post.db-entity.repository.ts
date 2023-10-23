@@ -5,9 +5,13 @@ import { PostDbEntity } from './post.db-entity';
 import { PostDbEntityFactory } from './post.db-entity.factory';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PostRepositoryInterface } from '../domain/interfaces/post.repository.interface';
 
 @Injectable()
-export class PostRepository extends BaseAbstractRepository<PostDbEntity, Post> {
+export class PostRepository
+  extends BaseAbstractRepository<PostDbEntity, Post>
+  implements PostRepositoryInterface
+{
   constructor(
     @InjectRepository(PostDbEntity)
     protected readonly postRepository: Repository<PostDbEntity>,
