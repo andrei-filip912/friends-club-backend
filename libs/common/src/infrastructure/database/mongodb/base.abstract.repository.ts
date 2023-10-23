@@ -8,7 +8,7 @@ import {
   Connection,
   ClientSession,
 } from 'mongoose';
-import { AbstractDocument } from './mongodb.abstract.schema';
+import { AbstractDocument } from './base.abstract.schema';
 import { MongoDbRepository } from '@friends-club/common';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument>

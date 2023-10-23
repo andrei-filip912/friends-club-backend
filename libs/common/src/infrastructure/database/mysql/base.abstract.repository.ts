@@ -1,6 +1,6 @@
 import { BaseInterfaceRepository } from '../../../domain/Interfaces/mysql.interface.repository';
 import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
-import { AbstractEntity } from './mysql.abstrat.entity';
+import { AbstractEntity } from './base.abstract.entity';
 
 export abstract class BaseAbstractRepository<T extends AbstractEntity<T>>
   implements BaseInterfaceRepository<T>
