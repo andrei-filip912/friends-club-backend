@@ -5,6 +5,12 @@ import { RmqModule } from '@friends-club/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { INTERACTION_SERVICE } from '../domain/constants/services';
+import { CqrsModule } from '@nestjs/cqrs';
+import { PostRepository } from './post.db-entity.repository';
+import { PostDbEntity } from './post.db-entity';
+import { PostFactory } from '../domain/entities/post.factory';
+import { PostCommandHandlers } from '../application/commands';
+import { PostEventHandlers } from '../domain/events';
 
 @Module({
   imports: [
@@ -19,8 +25,17 @@ import { INTERACTION_SERVICE } from '../domain/constants/services';
     RmqModule.register({
       name: INTERACTION_SERVICE,
     }),
+    CqrsModule,
+    // add mongoose module fro MySql
   ],
   controllers: [PostController],
-  providers: [PostService],
+  providers: [
+    PostService,
+    PostRepository,
+    PostDbEntity,
+    PostFactory,
+    ...PostCommandHandlers,
+    ...PostEventHandlers,
+  ],
 })
 export class PostModule {}

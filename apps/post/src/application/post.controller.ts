@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Patch, Param, Body } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { CreatePostCommand } from './commands/create-post.command';
+import { CreatePostRequest } from './dto/create-post-request.dto';
 
 @Controller('post')
 export class PostController {
