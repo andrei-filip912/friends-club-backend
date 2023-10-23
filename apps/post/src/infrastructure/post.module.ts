@@ -11,6 +11,7 @@ import { PostDbEntity } from './post.db-entity';
 import { PostFactory } from '../domain/entities/post.factory';
 import { PostCommandHandlers } from '../application/commands';
 import { PostEventHandlers } from '../domain/events';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PostEventHandlers } from '../domain/events';
       name: INTERACTION_SERVICE,
     }),
     CqrsModule,
+    TypeOrmModule.forFeature([PostDbEntity]),
     // add mongoose module fro MySql
   ],
   controllers: [PostController],
