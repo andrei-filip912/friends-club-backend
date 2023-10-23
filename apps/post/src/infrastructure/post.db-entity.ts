@@ -1,12 +1,12 @@
 import { AbstractEntity } from '@friends-club/common';
 import { Entity, Column } from 'typeorm';
-import { PostEntity } from '../domain/entities/post.entity';
+import { Post } from '../domain/entities/Post';
 
 @Entity('post')
-export class PostDbEntity extends AbstractEntity<PostEntity> {
+export class PostDbEntity extends AbstractEntity<Post> {
   @Column()
-  caption: string;
+  readonly caption: string;
 
   @Column()
-  image_id: string;
+  readonly image_id: string;
 }

@@ -6,4 +6,4 @@ export * from './domain/Interfaces/mongodb.interface.repository';
 export * from './domain/Interfaces/mongodb.interface.schema';
 export * from './infrastructure/services/rmq/rmq.module';
 export * from './infrastructure/database/mysql/base.abstract.entity';
-export * from './domain/entities/identifiable.entity';
+export * from './infrastructure/database/mysql/entity-dbEntity.factory';
