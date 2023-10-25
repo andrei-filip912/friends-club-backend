@@ -25,12 +25,11 @@ export class PostController {
 
   @Post()
   async createPost(
-    @Body() createPostRequest: CreatePostRequest,
+    @Body() createPostRequest: CreatePostRequest, // dto
   ): Promise<void> {
     await this.commandBus.execute<CreatePostCommand, void>(
       new CreatePostCommand(createPostRequest),
     );
-    //return this.postService.createPost();
   }
 
   // @Patch(':id')
