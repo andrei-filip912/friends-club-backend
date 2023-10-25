@@ -10,3 +10,4 @@ export * from './infrastructure/database/mysql/entity-dbEntity.factory';
 export * from './infrastructure/database/mysql/base.abstract.repository';
 export * from './infrastructure/database/mysql/entity.factory';
 export * from './domain/Interfaces/mysql.interface.repository';
+export * from './infrastructure/database/mysql/mysql.module';

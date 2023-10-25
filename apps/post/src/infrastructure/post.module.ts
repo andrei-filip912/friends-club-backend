@@ -12,7 +12,8 @@ import { PostFactory } from '../domain/entities/post.factory';
 import { PostCommandHandlers } from '../application/commands';
 import { PostEventHandlers } from '../domain/events';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { SqlDatabaseModule } from '@friends-club/common';
+import { PostDbEntityFactory } from './post.db-entity.factory';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,18 +29,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     CqrsModule,
     TypeOrmModule.forFeature([PostDbEntity]),
-    // add mongoose module fro MySql
+    SqlDatabaseModule,
   ],
   controllers: [PostController],
   providers: [
     PostService,
     PostRepository,
-    // {
-    //   provide: 'PostRepositoryInterface',
-    //   useClass: PostRepository
-    // }
     PostDbEntity,
     PostFactory,
+    PostDbEntityFactory,
     ...PostCommandHandlers,
     ...PostEventHandlers,
   ],
