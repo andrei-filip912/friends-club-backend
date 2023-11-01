@@ -1,4 +1,4 @@
 export class CreatePostRequest {
   caption: string;
-  image_id: string;
+  image: Express.Multer.File;
 }

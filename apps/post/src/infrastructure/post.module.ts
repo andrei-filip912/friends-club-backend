@@ -14,6 +14,7 @@ import { PostEventHandlers } from '../application/events';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SqlDatabaseModule } from '@friends-club/common';
 import { PostDbEntityFactory } from './post.db-entity.factory';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
