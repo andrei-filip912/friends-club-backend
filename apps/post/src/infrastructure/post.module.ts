@@ -10,7 +10,7 @@ import { PostRepository } from './post.db-entity.repository';
 import { PostDbEntity } from './post.db-entity';
 import { PostFactory } from '../domain/entities/post.factory';
 import { PostCommandHandlers } from '../application/commands';
-import { PostEventHandlers } from '../domain/events';
+import { PostEventHandlers } from '../application/events';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SqlDatabaseModule } from '@friends-club/common';
 import { PostDbEntityFactory } from './post.db-entity.factory';

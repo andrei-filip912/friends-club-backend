@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityFactory } from '@friends-club/common';
 import { Post } from './Post';
-import { PostCreatedEvent } from '../events/post-created.events';
+import { PostCreatedEvent } from '../../application/events/post-created.events';
 import { PostRepository } from '../../infrastructure/post.db-entity.repository';
 
 @Injectable()
