@@ -1,3 +1,3 @@
-export class PostCreatedEvent {
+export class TextPostCreatedEvent {
   constructor(public readonly postId: number) {}
 }

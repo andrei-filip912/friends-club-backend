@@ -1,4 +1,7 @@
-import { PostCreatedHandler } from './post-created.handler';
-import { ImagePostAddedHandler } from './image-post-added.handler';
+import { TextPostCreatedHandler } from './text-post-created.handler';
+import { ImagePostCreatedHandler } from './image-post-created.handler';
 
-export const PostEventHandlers = [PostCreatedHandler, ImagePostAddedHandler];
+export const PostEventHandlers = [
+  TextPostCreatedHandler,
+  ImagePostCreatedHandler,
+];
