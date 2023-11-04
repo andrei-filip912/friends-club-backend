@@ -13,8 +13,9 @@ export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
     const { image, caption } = createPostRequest;
 
     const post = this.eventPublisher.mergeObjectContext(
-      await this.postFactory.create(caption, ''),
+      await this.postFactory.create(caption, image),
     );
+
     post.commit();
   }
 }

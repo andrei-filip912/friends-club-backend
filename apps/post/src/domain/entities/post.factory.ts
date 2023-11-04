@@ -3,15 +3,19 @@ import { EntityFactory } from '@friends-club/common';
 import { Post } from './Post';
 import { PostCreatedEvent } from '../../application/events/post-created.events';
 import { PostRepository } from '../../infrastructure/post.db-entity.repository';
+import { ImagePostAddedEvent } from '../../application/events/image-post-created.events';
 
 @Injectable()
 export class PostFactory implements EntityFactory<Post> {
   constructor(private readonly postRepository: PostRepository) {}
 
-  async create(caption: string, image_id: string): Promise<Post> {
-    const post = new Post(caption, image_id);
+  async create(caption: string, image: Express.Multer.File): Promise<Post> {
+    const emptyImageId = '';
+    const post = new Post(caption, emptyImageId);
     await this.postRepository.create(post);
+
     post.apply(new PostCreatedEvent(post.getId()));
+    post.apply(new ImagePostAddedEvent(post.getId(), image));
 
     return post;
   }
