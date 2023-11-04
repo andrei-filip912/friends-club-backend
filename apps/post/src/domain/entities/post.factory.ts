@@ -15,7 +15,9 @@ export class PostFactory implements EntityFactory<Post> {
     await this.postRepository.create(post);
 
     post.apply(new PostCreatedEvent(post.getId()));
-    post.apply(new ImagePostAddedEvent(post.getId(), image));
+    if (image) {
+      post.apply(new ImagePostAddedEvent(post.getId(), image));
+    }
 
     return post;
   }
