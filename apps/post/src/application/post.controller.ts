@@ -29,7 +29,6 @@ export class PostController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  // @Bind(UploadedFile())
   async createPost(
     @UploadedFile() image: Express.Multer.File,
     @Body() createPostRequest: CreatePostRequest, // dto
