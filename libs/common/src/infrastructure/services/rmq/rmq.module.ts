@@ -1,6 +1,10 @@
 import { Module, DynamicModule } from '@nestjs/common';
 import { RmqService } from './rmq.service';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import {
+  ClientsModule,
+  ClientsModuleAsyncOptions,
+  Transport,
+} from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 
 // to-do: to moved
@@ -29,7 +33,11 @@ export class RmqModule {
 
     return {
       module: RmqModule,
-      imports: [ClientsModule.registerAsync(clientModuleOptions)],
+      imports: [
+        ClientsModule.registerAsync(
+          clientModuleOptions as ClientsModuleAsyncOptions,
+        ),
+      ],
       exports: [ClientsModule],
     };
   }
