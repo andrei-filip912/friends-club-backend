@@ -5,7 +5,8 @@ import { ConfigService } from '@nestjs/config';
 
 // to-do: to moved
 interface RmqModuleOptions {
-  name: string;
+  // name: string;
+  queueNames: string[];
 }
 
 @Module({
@@ -13,24 +14,22 @@ interface RmqModuleOptions {
   exports: [RmqService],
 })
 export class RmqModule {
-  static register({ name }: RmqModuleOptions): DynamicModule {
+  static register({ queueNames }: RmqModuleOptions): DynamicModule {
+    const clientModuleOptions = queueNames.map((name: string) => ({
+      name,
+      useFactory: (configService: ConfigService) => ({
+        transport: Transport.RMQ,
+        options: {
+          urls: [configService.get<string>('RABBIT_MQ_URI')!],
+          queue: configService.get<string>(`RABBIT_MQ_${name}_QUEUE`),
+        },
+      }),
+      inject: [ConfigService],
+    }));
+
     return {
       module: RmqModule,
-      imports: [
-        ClientsModule.registerAsync([
-          {
-            name,
-            useFactory: (configService: ConfigService) => ({
-              transport: Transport.RMQ,
-              options: {
-                urls: [configService.get<string>('RABBIT_MQ_URI')!],
-                queue: configService.get<string>(`RABBIT_MQ_${name}_QUEUE`),
-              },
-            }),
-            inject: [ConfigService],
-          },
-        ]),
-      ],
+      imports: [ClientsModule.registerAsync(clientModuleOptions)],
       exports: [ClientsModule],
     };
   }

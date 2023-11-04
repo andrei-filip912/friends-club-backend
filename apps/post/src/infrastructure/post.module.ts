@@ -4,7 +4,10 @@ import { PostService } from '../domain/services/post.service';
 import { RmqModule } from '@friends-club/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { INTERACTION_SERVICE } from '../domain/constants/services';
+import {
+  INTERACTION_SERVICE,
+  UPLOAD_SERVICE,
+} from '../domain/constants/services';
 import { CqrsModule } from '@nestjs/cqrs';
 import { PostRepository } from './post.db-entity.repository';
 import { PostDbEntity } from './post.db-entity';
@@ -22,12 +25,11 @@ import { PostDbEntityFactory } from './post.db-entity.factory';
       validationSchema: Joi.object({
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_INTERACTION_QUEUE: Joi.string().required(),
+        RABBIT_MQ_POST_IMAGE_ADDED_QUEUE: Joi.string().required(),
       }),
       envFilePath: './apps/post/.env',
     }),
-    RmqModule.register({
-      name: INTERACTION_SERVICE,
-    }),
+    RmqModule.register({ queueNames: [INTERACTION_SERVICE, UPLOAD_SERVICE] }),
     CqrsModule,
     TypeOrmModule.forFeature([PostDbEntity]),
     SqlDatabaseModule,
