@@ -4,7 +4,7 @@ import { PostService } from '../domain/services/post.service';
 import { RmqModule } from '@friends-club/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { INTERACTION_SERVICE } from './constants/services';
+import { INTERACTION_SERVICE } from '../domain/constants/services';
 import { CqrsModule } from '@nestjs/cqrs';
 import { PostRepository } from './post.db-entity.repository';
 import { PostDbEntity } from './post.db-entity';
