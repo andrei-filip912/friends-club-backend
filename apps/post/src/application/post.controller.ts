@@ -4,7 +4,6 @@ import { CreatePostCommand } from './commands/create-post.command';
 import { CreatePostRequest } from './dto/create-post-request.dto';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Bind } from '@nestjs/common';
 import { UploadedFile } from '@nestjs/common';
 
 @Controller('post')

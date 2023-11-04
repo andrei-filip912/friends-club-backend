@@ -22,7 +22,7 @@ services:
     #   - .:/usr/src/app
     #   - /usr/src/app/node_modules # trick to not include node_modules part of the running machine
     ports:
-     - "3000:3000"
+     - "8000:8000"
 
   interaction:
     build:
@@ -41,7 +41,25 @@ services:
     #   - .:/usr/src/app
     #   - /usr/src/app/node_modules # trick to not include node_modules part of the running machine
     ports:
-     - "3001:3001"
+     - "8001:8001"
+
+  upload:
+    build:
+      context: .
+      dockerfile: ./apps/upload/Dockerfile
+      target: development
+    command: pnpm run start:dev upload
+    env_file:
+      - ./apps/upload/.env
+    depends_on:
+      # - mongodb-primary
+      # - mongodb-secondary
+      # - mongodb-arbiter
+      - rabbitmq
+    ports:
+     - "8002:80022"
+
+     
   
   rabbitmq:
     image: rabbitmq

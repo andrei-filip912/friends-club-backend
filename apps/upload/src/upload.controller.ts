@@ -4,7 +4,7 @@ import { Ctx, EventPattern, Payload } from '@nestjs/microservices';
 import { RmqContext } from '@nestjs/microservices';
 import { RmqService } from '@friends-club/common';
 
-@Controller()
+@Controller('upload')
 export class UploadController {
   constructor(
     private readonly uploadService: UploadService,

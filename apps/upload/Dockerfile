@@ -10,10 +10,9 @@ RUN pnpm install
 
 COPY . .
 
-EXPOSE 8001
-
 RUN pnpm run build
 
+EXPOSE 8002
 
 FROM node:20-slim as production
 
@@ -32,6 +31,6 @@ COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-EXPOSE 8001
+EXPOSE 8002
 
-CMD ["node", "dist/apps/interaction/main"]
+CMD ["node", "dist/apps/post/main"]
