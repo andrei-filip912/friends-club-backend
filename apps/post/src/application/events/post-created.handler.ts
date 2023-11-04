@@ -1,5 +1,5 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { PostCreatedEvent } from './post-created.events';
+import { PostCreatedEvent } from './post-created.event';
 
 @EventsHandler(PostCreatedEvent)
 export class PostCreatedHandler implements IEventHandler<PostCreatedEvent> {

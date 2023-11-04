@@ -1,5 +1,5 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { ImagePostAddedEvent } from './image-post-created.events';
+import { ImagePostAddedEvent } from './image-post-added.event';
 
 @EventsHandler(ImagePostAddedEvent)
 export class ImagePostAddedHandler
