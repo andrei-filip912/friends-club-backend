@@ -2,9 +2,9 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 
 export class Post extends AggregateRoot {
-  id: number;
-  caption: string;
-  image_id: string;
+  private readonly id: number;
+  private caption: string;
+  private readonly image_id: string;
 
   constructor(id: number, caption: string, image_id: string);
   constructor(caption: string, image_id: string);
@@ -34,5 +34,9 @@ export class Post extends AggregateRoot {
   }
   getImageId() {
     return this.image_id;
+  }
+
+  updateCaption(caption: string): void {
+    this.caption = caption;
   }
 }

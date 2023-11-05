@@ -5,6 +5,8 @@ import { CreatePostRequest } from './dto/create-post-request.dto';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadedFile } from '@nestjs/common';
+import { UpdatePostCaptionRequest } from './dto/update-post-caption-request.dto';
+import { UpdateCaptionCommand } from './commands/update-caption/update-caption.command';
 
 @Controller('post')
 export class PostController {
@@ -38,9 +40,13 @@ export class PostController {
     );
   }
 
-  // @Patch(':id')
-  // async updatedPostText(
-  //   @Param('id') postId: number,
-  //   @Body() updatePostTextRequest: UpdatePostTextRequest
-  // ): Promise<void> {}
+  @Patch(':id')
+  async updatedPostCaption(
+    @Param('id') postId: number,
+    @Body() updatePostCaptionRequest: UpdatePostCaptionRequest,
+  ): Promise<void> {
+    await this.commandBus.execute<UpdateCaptionCommand, void>(
+      new UpdateCaptionCommand(updatePostCaptionRequest),
+    );
+  }
 }
