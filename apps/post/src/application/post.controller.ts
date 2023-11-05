@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Param, Body } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { CreatePostCommand } from './commands/create-post.command';
+import { CreatePostCommand } from './commands/create-post/create-post.command';
 import { CreatePostRequest } from './dto/create-post-request.dto';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';

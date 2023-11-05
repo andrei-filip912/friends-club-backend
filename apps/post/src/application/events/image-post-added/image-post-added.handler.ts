@@ -1,6 +1,6 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { ImagePostAddedEvent } from './image-post-added.event';
-import { UPLOAD_SERVICE } from '../../domain/constants/services';
+import { UPLOAD_SERVICE } from '../../../domain/constants/services';
 import { Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
