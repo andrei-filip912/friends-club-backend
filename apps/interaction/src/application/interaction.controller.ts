@@ -4,7 +4,7 @@ import { Ctx, EventPattern, Payload } from '@nestjs/microservices';
 import { RmqContext } from '@nestjs/microservices';
 import { RmqService } from '@friends-club/common';
 
-@Controller()
+@Controller('interaction')
 export class InteractionController {
   constructor(
     private readonly interactionService: InteractionService,
@@ -16,7 +16,7 @@ export class InteractionController {
     return this.interactionService.getHello();
   }
 
-  @EventPattern('post_created')
+  @EventPattern('post.created')
   async handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
     this.interactionService.createInteraction(data);
     this.rmqService.ack(context);

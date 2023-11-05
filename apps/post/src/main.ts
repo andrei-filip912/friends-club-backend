@@ -1,25 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { PostModule } from './post.module';
-
-// async function bootstrap() {
-//   const app = await NestFactory.createMicroservice<MicroserviceOptions>(PostModule, {
-//       transport: Transport.RMQ,
-//       options: {
-//         urls: ['amqp://localhost:5672'],
-//         queue: 'post_queue',
-//         queueOptions: {
-//           durable: false
-//         },
-//       },
-//     },
-//   );
-//   await app.listen();
-// }
-// bootstrap();
+import { PostModule } from './infrastructure/post.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(PostModule);
-  await app.listen(3000);
-  console.log('test');
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    // credentials: true,
+  });
+  await app.listen(8000);
 }
 bootstrap();

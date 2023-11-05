@@ -1,32 +1,24 @@
-import {
-    FilterQuery,
-    Model,
-    Types,
-    UpdateQuery,
-    SaveOptions,
-    Connection,
-    ClientSession,
-} from 'mongoose';
+import { FilterQuery, UpdateQuery, SaveOptions, ClientSession } from 'mongoose';
 
 export interface MongoDbRepository<TDocument> {
-    create(
-        document: Omit<TDocument, '_id'>,
-        options?: SaveOptions,
-    ): Promise<TDocument>
-    
-    findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument | null>
+  create(
+    document: Omit<TDocument, '_id'>,
+    options?: SaveOptions,
+  ): Promise<TDocument>;
 
-    findOneAndUpdate(
-        filterQuery: FilterQuery<TDocument>,
-        update: UpdateQuery<TDocument>,
-    ): Promise<TDocument>
+  findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument | null>;
 
-    upsert(
-        filterQuery: FilterQuery<TDocument>,
-        document: Partial<TDocument>,
-    ): Promise<any>
+  findOneAndUpdate(
+    filterQuery: FilterQuery<TDocument>,
+    update: UpdateQuery<TDocument>,
+  ): Promise<TDocument>;
 
-    find(filterQuery: FilterQuery<TDocument>) : Promise<any>
+  upsert(
+    filterQuery: FilterQuery<TDocument>,
+    document: Partial<TDocument>,
+  ): Promise<any>;
 
-    startTransaction() : Promise<ClientSession>
+  find(filterQuery: FilterQuery<TDocument>): Promise<any>;
+
+  startTransaction(): Promise<ClientSession>;
 }

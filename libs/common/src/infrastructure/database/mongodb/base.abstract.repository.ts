@@ -8,10 +8,12 @@ import {
   Connection,
   ClientSession,
 } from 'mongoose';
-import { AbstractDocument } from './mongodb.abstract.schema';
+import { AbstractDocument } from './base.abstract.schema';
 import { MongoDbRepository } from '@friends-club/common';
 
-export abstract class AbstractRepository<TDocument extends AbstractDocument> implements MongoDbRepository<TDocument> {
+export abstract class AbstractRepository<TDocument extends AbstractDocument>
+  implements MongoDbRepository<TDocument>
+{
   protected abstract readonly logger: Logger;
 
   constructor(
@@ -32,8 +34,12 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> imp
     ).toJSON() as unknown as TDocument;
   }
 
-  async findOne(filterQuery: FilterQuery<TDocument>){
-    const document = await this.model.findOne(filterQuery, {}, { lean: true }) as TDocument;
+  async findOne(filterQuery: FilterQuery<TDocument>) {
+    const document = (await this.model.findOne(
+      filterQuery,
+      {},
+      { lean: true },
+    )) as TDocument;
 
     if (!document) {
       this.logger.warn('Document not found with filterQuery', filterQuery);
@@ -46,11 +52,11 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> imp
   async findOneAndUpdate(
     filterQuery: FilterQuery<TDocument>,
     update: UpdateQuery<TDocument>,
-  ): Promise<TDocument>{
-    const document = await this.model.findOneAndUpdate(filterQuery, update, {
+  ): Promise<TDocument> {
+    const document = (await this.model.findOneAndUpdate(filterQuery, update, {
       lean: true,
       new: true,
-    }) as TDocument;
+    })) as TDocument;
 
     if (!document) {
       this.logger.warn(`Document not found with filterQuery:`, filterQuery);
@@ -71,11 +77,11 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> imp
     });
   }
 
-  async find(filterQuery: FilterQuery<TDocument>) : Promise<any> {
+  async find(filterQuery: FilterQuery<TDocument>): Promise<any> {
     return this.model.find(filterQuery, {}, { lean: true });
   }
 
-  async startTransaction() : Promise<ClientSession> {
+  async startTransaction(): Promise<ClientSession> {
     const session = await this.connection.startSession();
     session.startTransaction();
     return session;
