@@ -5,7 +5,6 @@ import { RmqService } from '@friends-club/common';
 async function bootstrap() {
   const app = await NestFactory.create(InteractionModule);
   const rmqService = app.get<RmqService>(RmqService);
-  console.log('test2345');
   app.connectMicroservice(rmqService.getOptions('INTERACTION'));
   await app.startAllMicroservices();
 }

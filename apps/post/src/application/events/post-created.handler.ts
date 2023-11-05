@@ -12,6 +12,6 @@ export class PostCreatedHandler implements IEventHandler<PostCreatedEvent> {
 
   async handle({ postId }: PostCreatedEvent): Promise<void> {
     console.log('Post created: ', postId);
-    this.interactionClient.emit('post_created', { id: postId });
+    this.interactionClient.emit('post.created', { id: postId });
   }
 }

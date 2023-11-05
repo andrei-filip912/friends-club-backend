@@ -16,7 +16,7 @@ export class InteractionController {
     return this.interactionService.getHello();
   }
 
-  @EventPattern('post_created')
+  @EventPattern('post.created')
   async handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
     this.interactionService.createInteraction(data);
     this.rmqService.ack(context);

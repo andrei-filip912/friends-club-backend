@@ -9,6 +9,11 @@ export class UploadService {
   }
 
   uploadPostImage(data: any) {
-    this.logger.log('Image to be uploaded', data);
+    console.log(
+      'Image to be uploaded',
+      data.image.originalname,
+      ' for post: ',
+      data.id,
+    );
   }
 }
