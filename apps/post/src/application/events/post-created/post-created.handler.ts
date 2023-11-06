@@ -1,7 +1,7 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { PostCreatedEvent } from './post-created.event';
 import { Inject } from '@nestjs/common';
-import { INTERACTION_SERVICE } from '../../domain/constants/services';
+import { INTERACTION_SERVICE } from '../../../domain/constants/services';
 import { ClientProxy } from '@nestjs/microservices';
 
 @EventsHandler(PostCreatedEvent)

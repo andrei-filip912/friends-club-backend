@@ -1,6 +1,6 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { CreatePostCommand } from './create-post.command';
-import { PostFactory } from '../../domain/entities/post.factory';
+import { PostFactory } from '../../../domain/entities/post.factory';
 
 @CommandHandler(CreatePostCommand)
 export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
