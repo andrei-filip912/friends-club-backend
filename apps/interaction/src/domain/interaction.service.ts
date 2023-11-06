@@ -8,7 +8,11 @@ export class InteractionService {
     return 'Hello World!';
   }
 
-  createInteraction(data: any) {
-    this.logger.log('post_created: ', data);
+  createPost(data: any) {
+    console.log('post_created: ', data);
+  }
+
+  deletePost(data: any) {
+    console.log('post_deleted: ', data);
   }
 }
