@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Patch, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Param,
+  Body,
+  Delete,
+} from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreatePostCommand } from './commands/create-post/create-post.command';
 import { CreatePostRequest } from './dto/create-post-request.dto';
@@ -9,6 +17,8 @@ import { UpdatePostCaptionRequest } from './dto/update-post-caption-request.dto'
 import { UpdateCaptionCommand } from './commands/update-caption/update-caption.command';
 import { PostQuery } from './queries/post.query';
 import { PostDto } from './dto/post.dto';
+import { DeletePostRequest } from './dto/delete-post-request.dto';
+import { DeletePostCommand } from './commands/delete-post/delete-post.command';
 
 @Controller('post')
 export class PostController {
@@ -47,6 +57,16 @@ export class PostController {
     updatePostCaptionRequest.postId = postId;
     await this.commandBus.execute<UpdateCaptionCommand, void>(
       new UpdateCaptionCommand(updatePostCaptionRequest),
+    );
+  }
+  @Delete(':id')
+  async deletePost(
+    @Param('id') postId: number,
+    @Body() deletePostRequest: DeletePostRequest,
+  ): Promise<void> {
+    deletePostRequest.postId = postId;
+    await this.commandBus.execute<DeletePostCommand, void>(
+      new DeletePostCommand(deletePostRequest),
     );
   }
 }

@@ -17,8 +17,14 @@ export class InteractionController {
   }
 
   @EventPattern('post.created')
-  async handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
-    this.interactionService.createInteraction(data);
+  async handlePostCreated(@Payload() data: any, @Ctx() context: RmqContext) {
+    this.interactionService.createPost(data);
+    this.rmqService.ack(context);
+  }
+
+  @EventPattern('post.deleted')
+  async handlePostDeleted(@Payload() data: any, @Ctx() context: RmqContext) {
+    this.interactionService.deletePost(data);
     this.rmqService.ack(context);
   }
 }

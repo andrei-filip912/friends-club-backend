@@ -93,7 +93,7 @@ export abstract class BaseAbstractRepository<
     return entities;
   }
 
-  public async remove(id: string): Promise<DeleteResult> {
-    return await this.respository.delete(id);
+  public async remove(id: number): Promise<DeleteResult> {
+    return await this.respository.delete({ id: id as any });
   }
 }
