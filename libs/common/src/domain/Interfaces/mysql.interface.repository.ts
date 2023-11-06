@@ -3,9 +3,11 @@ import { DeleteResult } from 'typeorm';
 export interface BaseInterfaceRepository<T> {
   create(data: T | any): Promise<T>;
 
-  findOneById(id: number): Promise<T | null>;
+  findOneById(id: number): Promise<T>;
 
-  findByCondition(filterCondition: any): Promise<T | null>;
+  // findOneAndReplaceById(id: number, replacement: T): Promise<T>;
+
+  findByCondition(filterCondition: any): Promise<T>;
 
   findAll(): Promise<T[]>;
 

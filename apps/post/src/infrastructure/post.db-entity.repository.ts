@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BaseAbstractRepository } from '@friends-club/common';
 import { Post } from '../domain/entities/Post';
 import { PostDbEntity } from './post.db-entity';
 import { PostDbEntityFactory } from './post.db-entity.factory';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostRepositoryInterface } from '../domain/interfaces/post.repository.interface';
 
@@ -18,5 +18,18 @@ export class PostRepository
     protected readonly postDbEntityFactory: PostDbEntityFactory,
   ) {
     super(postRepository, postDbEntityFactory);
+  }
+
+  public findOneAndUpdateCaptionById(
+    id: number,
+    replacement: Post,
+  ): Promise<UpdateResult> {
+    const post = this.findOneById(id);
+    if (!post) {
+      throw new NotFoundException('post not found');
+    }
+    return this.postRepository.update(id, {
+      caption: replacement.caption,
+    });
   }
 }

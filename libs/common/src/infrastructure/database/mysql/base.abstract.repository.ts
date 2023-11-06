@@ -3,6 +3,7 @@ import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
 import { AbstractEntity } from './base.abstract.entity';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { EntityDbEntityFactory } from './entity-dbEntity.factory';
+import { NotFoundException } from '@nestjs/common';
 
 export abstract class BaseAbstractRepository<
   TDbEntity extends AbstractEntity,
@@ -26,28 +27,44 @@ export abstract class BaseAbstractRepository<
     return this.respository.save(data);
   }
 
-  public async findOneById(id: number): Promise<TEntity | null> {
+  public async findOneById(id: number): Promise<TEntity> {
     const dbEntity = await this.respository.findOne({
       where: { id } as FindOptionsWhere<TDbEntity>,
     });
 
-    // Use your factory to create the domain entity
-    if (dbEntity) {
-      const entity = this.entityDbEntityFactory.createFromDbEntity(dbEntity);
-      return entity;
+    if (!dbEntity) {
+      throw new NotFoundException('Could no find the required post.');
     }
-    return null;
+
+    const entity = this.entityDbEntityFactory.createFromDbEntity(dbEntity);
+    return entity;
   }
 
-  public async findByCondition(filterCondition: any): Promise<TEntity | null> {
+  // public async findOneAndReplaceById(
+  //   id: number,
+  //   replacement: TEntity,
+  // ): Promise<TEntity> {
+  //   const dbEntity = await this.respository.findOne({
+  //     where: { id } as FindOptionsWhere<TDbEntity>,
+  //   });
+  //   if (!dbEntity) {
+  //     throw new NotFoundException('Could no find the required post.');
+  //   }
+
+  //   // Update the entity in the database
+  //   this.respository.update(id, replacement as any);
+  //   return replacement;
+  // }
+
+  public async findByCondition(filterCondition: any): Promise<TEntity> {
     const dbEntity = await this.respository.findOne({ where: filterCondition });
+    if (!dbEntity) {
+      throw new NotFoundException('Could no find the required post.');
+    }
 
     // Use your factory to create the domain entity
-    if (dbEntity) {
-      const entity = this.entityDbEntityFactory.createFromDbEntity(dbEntity);
-      return entity;
-    }
-    return null;
+    const entity = this.entityDbEntityFactory.createFromDbEntity(dbEntity);
+    return entity;
   }
 
   public async findWithRelations(relations: any): Promise<TEntity[]> {

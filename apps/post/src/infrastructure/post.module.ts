@@ -17,6 +17,9 @@ import { PostEventHandlers } from '../application/events';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SqlDatabaseModule } from '@friends-club/common';
 import { PostDbEntityFactory } from './post.db-entity.factory';
+import { PostQueryHandlers } from '../application/queries';
+import { PostDtoRepository } from './post-dto.repository';
+import { PostDto } from '../application/dto/post.dto';
 
 @Module({
   imports: [
@@ -37,7 +40,7 @@ import { PostDbEntityFactory } from './post.db-entity.factory';
     }),
     RmqModule.register({ queueNames: [INTERACTION_SERVICE, UPLOAD_SERVICE] }),
     CqrsModule,
-    TypeOrmModule.forFeature([PostDbEntity]),
+    TypeOrmModule.forFeature([PostDbEntity, PostDto]),
     SqlDatabaseModule,
   ],
   controllers: [PostController],
@@ -47,8 +50,10 @@ import { PostDbEntityFactory } from './post.db-entity.factory';
     PostDbEntity,
     PostFactory,
     PostDbEntityFactory,
+    PostDtoRepository,
     ...PostCommandHandlers,
     ...PostEventHandlers,
+    ...PostQueryHandlers,
   ],
 })
 export class PostModule {}
