@@ -45,6 +45,7 @@ export class PostController {
     @Param('id') postId: number,
     @Body() updatePostCaptionRequest: UpdatePostCaptionRequest,
   ): Promise<void> {
+    updatePostCaptionRequest.postId = postId;
     await this.commandBus.execute<UpdateCaptionCommand, void>(
       new UpdateCaptionCommand(updatePostCaptionRequest),
     );

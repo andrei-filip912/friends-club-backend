@@ -2,9 +2,9 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 
 export class Post extends AggregateRoot {
-  private readonly id: number;
-  private caption: string;
-  private readonly image_id: string;
+  readonly id: number;
+  caption: string;
+  readonly image_id: string;
 
   constructor(id: number, caption: string, image_id: string);
   constructor(caption: string, image_id: string);

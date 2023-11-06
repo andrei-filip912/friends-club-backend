@@ -13,12 +13,14 @@ export class UpdateCaptiontHandler
 
   async execute({ updateCaptionRequest }: UpdateCaptionCommand): Promise<void> {
     const { postId, caption } = updateCaptionRequest;
+    console.log(postId, caption);
     const post = this.eventPublisher.mergeObjectContext(
       await this.postRepository.findOneById(postId),
     );
 
     post.updateCaption(caption);
-    await this.postRepository.findOneAndReplaceById(postId, post);
+    console.log(postId, post);
+    await this.postRepository.findOneAndUpdateCaptionById(postId, post);
     post.commit();
   }
 }
