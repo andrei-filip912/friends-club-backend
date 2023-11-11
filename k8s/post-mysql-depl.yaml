@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-mysql-depl
+spec:
+  selector:
+    matchLabels:
+      app: post-mysql
+  template:
+    metadata:
+      labels:
+        app: post-mysql
+    spec:
+      containers:
+      - name: post-mysql
+        image: mysql
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+          - name: MYSQL_ALLOW_EMPTY_PASSWORD
+            value: 'true'
+          - name: MYSQL_DATABASE
+            value: 'post_db'
+        ports:
+        - containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: post-mysql-srv
+spec:
+  selector:
+    app: post-mysql
+  ports:
+  - name: db
+    protocol: TCP
+    port: 3306
+    targetPort: 3306
+
