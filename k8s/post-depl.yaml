@@ -30,11 +30,10 @@ kind: Service
 metadata:
   name: post-srv
 spec:
-  type: NodePort # to be changed to load balancer later, for now we keep the nodePort to connect with postman
+  type: LoadBalancer
   ports:
   - protocol: TCP
     port: 8000
-    targetPort: 8000
   selector:
     app: post
 
