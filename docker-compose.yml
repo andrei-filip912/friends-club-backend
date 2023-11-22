@@ -60,7 +60,12 @@ services:
     ports:
      - "8002:8002"
 
-     
+  client:
+    image: af912/client-friends-club
+    environment:
+      NEXT_PUBLIC_API_URL: https://friends-club.dev
+    ports:
+      - '3000:3000'
   
   rabbitmq:
     image: rabbitmq:3-management

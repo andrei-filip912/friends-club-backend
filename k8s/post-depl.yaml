@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-depl
+spec:
+  selector:
+    matchLabels:
+      app: post
+  # replicas: 2
+  template:
+    metadata:
+      labels:
+        app: post
+    spec:
+      containers:
+      - name: post
+        image: af912/post-friends-club:latest
+        resources:
+          limits:
+            memory: "400Mi"
+            cpu: "500m"
+        envFrom:
+        - secretRef:
+            name: post
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: post-srv
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8000
+  selector:
+    app: post
+

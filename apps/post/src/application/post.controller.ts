@@ -42,9 +42,10 @@ export class PostController {
   async createPost(
     @UploadedFile() image: Express.Multer.File,
     @Body() createPostRequest: CreatePostRequest, // dto
-  ): Promise<void> {
+  ): Promise<PostDto> {
     createPostRequest.image = image;
-    await this.commandBus.execute<CreatePostCommand, void>(
+
+    return this.commandBus.execute<CreatePostCommand, PostDto>(
       new CreatePostCommand(createPostRequest),
     );
   }
@@ -53,9 +54,10 @@ export class PostController {
   async updatedPostCaption(
     @Param('id') postId: number,
     @Body() updatePostCaptionRequest: UpdatePostCaptionRequest,
-  ): Promise<void> {
+  ): Promise<PostDto> {
     updatePostCaptionRequest.postId = postId;
-    await this.commandBus.execute<UpdateCaptionCommand, void>(
+
+    return await this.commandBus.execute<UpdateCaptionCommand, PostDto>(
       new UpdateCaptionCommand(updatePostCaptionRequest),
     );
   }
@@ -65,7 +67,8 @@ export class PostController {
     @Body() deletePostRequest: DeletePostRequest,
   ): Promise<void> {
     deletePostRequest.postId = postId;
-    await this.commandBus.execute<DeletePostCommand, void>(
+
+    return await this.commandBus.execute<DeletePostCommand, void>(
       new DeletePostCommand(deletePostRequest),
     );
   }

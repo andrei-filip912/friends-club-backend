@@ -26,7 +26,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN pnpm install --only=production
+RUN pnpm install --prod
 
 COPY . .
 

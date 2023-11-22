@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: friends-club-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # nginx.ingress.kubernetes.io/use-regex: "true"
+  labels:
+    name: friends-club-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: friends-club.dev
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        path: /api/post/?(.*)
+        backend:
+          service:
+            name: post-srv
+            port: 
+              number: 8000
+      - pathType: ImplementationSpecific
+        path: /?(.*)
+        backend:
+          service:
+            name: client-srv
+            port: 
+              number: 3000
