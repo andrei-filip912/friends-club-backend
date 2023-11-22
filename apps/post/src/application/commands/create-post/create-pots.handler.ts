@@ -1,6 +1,7 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { CreatePostCommand } from './create-post.command';
 import { PostFactory } from '../../../domain/entities/post.factory';
+import { PostDto } from '../../dto/post.dto';
 
 @CommandHandler(CreatePostCommand)
 export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
@@ -9,7 +10,7 @@ export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
     private readonly eventPublisher: EventPublisher,
   ) {}
 
-  async execute({ createPostRequest }: CreatePostCommand): Promise<void> {
+  async execute({ createPostRequest }: CreatePostCommand): Promise<PostDto> {
     const { image, caption } = createPostRequest;
 
     const post = this.eventPublisher.mergeObjectContext(
@@ -17,5 +18,6 @@ export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
     );
 
     post.commit();
+    return post as PostDto;
   }
 }
