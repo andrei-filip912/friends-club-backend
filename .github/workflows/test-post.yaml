@@ -28,4 +28,14 @@ jobs:
       
       - name: Run e2e tests
         run: pnpm run test:e2e:post
+        env:
+          RABBIT_MQ_URI: test
+          RABBIT_MQ_INTERACTION_QUEUE: test
+          RABBIT_MQ_POST_IMAGE_ADDED_QUEUE: test
+          MYSQL_HOST: test
+          MYSQL_PORT: test
+          MYSQL_DATABASE: test
+          MYSQL_USERNAME: test
+          MYSQL_PASSWORD: test
+          MYSQL_SYNCHRONIZE: test
       
