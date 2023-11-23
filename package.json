@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e:post": "jest --config ./apps/post/test/jest-e2e.json"
+    "test:e2e:post": "jest --config ./apps/post/test/jest-e2e.json",
+    "test:post": "jest --testPathPattern=post/test/unit"
   },
   "dependencies": {
     "@golevelup/nestjs-rabbitmq": "^4.1.0",
