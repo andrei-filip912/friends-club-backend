@@ -23,6 +23,9 @@ jobs:
       - name: Create build
         run: npx nest build post 
 
-      - name: Run tests
-        run: pnpm run test --testPathPattern=post
+      - name: Run unit tests
+        run: pnpm run test:post
+      
+      - name: Run e2e tests
+        run: pnpm run test:e2e:post
       
