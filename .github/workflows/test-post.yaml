@@ -37,5 +37,5 @@ jobs:
           MYSQL_DATABASE: test
           MYSQL_USERNAME: test
           MYSQL_PASSWORD: test
-          MYSQL_SYNCHRONIZE: test
+          MYSQL_SYNCHRONIZE: true
       
