@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreatePostCommand } from './commands/create-post/create-post.command';
@@ -19,8 +20,10 @@ import { PostQuery } from './queries/post.query';
 import { PostDto } from './dto/post.dto';
 import { DeletePostRequest } from './dto/delete-post-request.dto';
 import { DeletePostCommand } from './commands/delete-post/delete-post.command';
+import { AuthorizationGuard } from '@friends-club/common';
 
 @Controller('post')
+@UseGuards(AuthorizationGuard)
 export class PostController {
   constructor(
     private readonly commandBus: CommandBus,
@@ -32,10 +35,10 @@ export class PostController {
     return this.queryBus.execute<PostQuery, PostDto[]>(new PostQuery());
   }
 
-  @Get(':id')
-  async getPost(@Param('id') postId: number): Promise<void> {
-    //return this.postService.getHello();
-  }
+  // @Get(':id')
+  // async getPost(@Param('id') postId: number): Promise<void> {
+  //   //return this.postService.getHello();
+  // }
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
