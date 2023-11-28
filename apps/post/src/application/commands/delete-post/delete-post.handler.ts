@@ -1,6 +1,6 @@
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { DeletePostCommand } from './delete-post.command';
-import { PostRepository } from 'apps/post/src/infrastructure/post.db-entity.repository';
+import { PostRepository } from '../../../infrastructure/post.db-entity.repository';
 import { PostDeletedEvent } from '../../events/post-deleted/post-deleted.event';
 
 @CommandHandler(DeletePostCommand)

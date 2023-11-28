@@ -32,10 +32,10 @@ export class PostController {
     return this.queryBus.execute<PostQuery, PostDto[]>(new PostQuery());
   }
 
-  @Get(':id')
-  async getPost(@Param('id') postId: number): Promise<void> {
-    //return this.postService.getHello();
-  }
+  // @Get(':id')
+  // async getPost(@Param('id') postId: number): Promise<void> {
+  //   //return this.postService.getHello();
+  // }
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
