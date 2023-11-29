@@ -19,9 +19,9 @@ spec:
           limits:
             memory: "400Mi"
             cpu: "500m"
-        env:
-          - name: API_URL
-            value: https://friends-club.dev
+        envFrom:
+        - secretRef:
+            name: client
         ports:
         - containerPort: 3000
 ---
