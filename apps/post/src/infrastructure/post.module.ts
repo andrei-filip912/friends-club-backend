@@ -34,6 +34,8 @@ import { PostDto } from '../application/dto/post.dto';
         MYSQL_USERNAME: Joi.string().required(),
         MYSQL_PASSWORD: Joi.string().allow(''),
         MYSQL_SYNCHRONIZE: Joi.bool().required(),
+        AUTH0_AUDIENCE: Joi.string().required(),
+        AUTH0_DOMAIN: Joi.string().required(),
       }),
       envFilePath: './apps/post/.env',
     }),
