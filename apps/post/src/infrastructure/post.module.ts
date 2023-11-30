@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { PostController } from '../application/post.controller';
-import { PostService } from '../domain/services/post.service';
 import { RmqModule } from '@friends-club/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
@@ -47,7 +46,6 @@ import { PostDto } from '../application/dto/post.dto';
   ],
   controllers: [PostController],
   providers: [
-    PostService,
     PostRepository,
     PostDbEntity,
     PostFactory,

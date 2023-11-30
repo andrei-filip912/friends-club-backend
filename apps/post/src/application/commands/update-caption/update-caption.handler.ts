@@ -1,6 +1,6 @@
 import { UpdateCaptionCommand } from './update-caption.command';
 import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
-import { PostRepository } from 'apps/post/src/infrastructure/post.db-entity.repository';
+import { PostRepository } from '../../../infrastructure/post.db-entity.repository';
 import { PostDto } from '../../dto/post.dto';
 
 @CommandHandler(UpdateCaptionCommand)
