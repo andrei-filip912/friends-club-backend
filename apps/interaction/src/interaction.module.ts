@@ -1,17 +1,20 @@
 import { Module } from '@nestjs/common';
 import { PostController } from './post/post.controller';
-import { InteractionService } from './domain/interaction.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from '@friends-club/common';
 import { ReactionEntityRepository } from './interaction/db/reaction-entity.repository';
 
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule, SchemaFactory } from '@nestjs/mongoose';
 import { ReactionSchema } from './interaction/db/reaction.schema';
-import { Reaction } from './interaction/Reaction';
 
 import { RmqModule } from '@friends-club/common';
 import { ReactionController } from './interaction/reaction.controller';
+import { ReactionSchemaFactory } from './interaction/db/reaction-schema.factory';
+import { ReactionFactory } from './interaction/reaction.factory';
+import { ReactionCommandHandlers } from './interaction/commands';
+import { ReactionEventHandlers } from './interaction/events';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
@@ -26,11 +29,21 @@ import { ReactionController } from './interaction/reaction.controller';
     }),
     DatabaseModule,
     MongooseModule.forFeature([
-      { name: Reaction.name, schema: ReactionSchema },
+      {
+        name: ReactionSchema.name,
+        schema: SchemaFactory.createForClass(ReactionSchema),
+      },
     ]),
     RmqModule,
+    CqrsModule,
   ],
   controllers: [PostController, ReactionController],
-  providers: [InteractionService, ReactionEntityRepository],
+  providers: [
+    ReactionEntityRepository,
+    ReactionSchemaFactory,
+    ReactionFactory,
+    ...ReactionCommandHandlers,
+    ...ReactionEventHandlers,
+  ],
 })
 export class InteractionModule {}

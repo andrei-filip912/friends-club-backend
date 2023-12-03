@@ -1,30 +1,28 @@
 import { Controller, Get } from '@nestjs/common';
-import { InteractionService } from '../domain/interaction.service';
 import { Ctx, EventPattern, Payload } from '@nestjs/microservices';
 import { RmqContext } from '@nestjs/microservices';
 import { RmqService } from '@friends-club/common';
 
 @Controller()
 export class PostController {
-  constructor(
-    private readonly interactionService: InteractionService,
-    private readonly rmqService: RmqService,
-  ) {}
+  constructor(private readonly rmqService: RmqService) {}
 
   @Get()
   getHello(): string {
-    return this.interactionService.getHello();
+    return 'hi';
   }
 
   @EventPattern('post.created')
   async handlePostCreated(@Payload() data: any, @Ctx() context: RmqContext) {
-    this.interactionService.createPost(data);
+    //this.interactionService.createPost(data);
+    console.log('post created', data);
     this.rmqService.ack(context);
   }
 
   @EventPattern('post.deleted')
   async handlePostDeleted(@Payload() data: any, @Ctx() context: RmqContext) {
-    this.interactionService.deletePost(data);
+    console.log('post deleted', data);
+    //this.interactionService.deletePost(data);
     this.rmqService.ack(context);
   }
 }
