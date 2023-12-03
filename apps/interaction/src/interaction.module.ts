@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { InteractionController } from './interaction/interaction.controller';
+import { PostController } from './post/post.controller';
 import { InteractionService } from './domain/interaction.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
@@ -11,6 +11,7 @@ import {
   ReactionSchema,
 } from './infrastructure/reaction.schema';
 import { RmqModule } from '@friends-club/common';
+import { ReactionController } from './interaction/reaction.controller';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { RmqModule } from '@friends-club/common';
     ]),
     RmqModule,
   ],
-  controllers: [InteractionController],
+  controllers: [PostController, ReactionController],
   providers: [InteractionService, ReactionRepository],
 })
 export class InteractionModule {}

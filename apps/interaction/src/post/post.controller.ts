@@ -5,7 +5,7 @@ import { RmqContext } from '@nestjs/microservices';
 import { RmqService } from '@friends-club/common';
 
 @Controller('interaction')
-export class InteractionController {
+export class PostController {
   constructor(
     private readonly interactionService: InteractionService,
     private readonly rmqService: RmqService,
