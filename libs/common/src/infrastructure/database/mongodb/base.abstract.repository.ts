@@ -1,89 +1,104 @@
-import { Logger, NotFoundException } from '@nestjs/common';
-import {
-  FilterQuery,
-  Model,
-  Types,
-  UpdateQuery,
-  SaveOptions,
-  Connection,
-  ClientSession,
-} from 'mongoose';
-import { AbstractDocument } from './base.abstract.schema';
-import { MongoDbRepository } from '@friends-club/common';
+import { EntitySchemaFactory } from '@friends-club/common';
+import { NotFoundException } from '@nestjs/common';
+import { AggregateRoot } from '@nestjs/cqrs';
+import { FilterQuery, Model } from 'mongoose';
+import { AbstractSchema } from './base.abstract.schema';
 
-export abstract class AbstractRepository<TDocument extends AbstractDocument>
-  implements MongoDbRepository<TDocument>
-{
-  protected abstract readonly logger: Logger;
+export abstract class AbstractRepository<
+  TSchema extends AbstractSchema,
+  TEntity extends AggregateRoot,
+> {
+  //implements MongoDbRepository<TEntity>
 
   constructor(
-    protected readonly model: Model<TDocument>,
-    private readonly connection: Connection,
+    protected readonly entityModel: Model<TSchema>,
+    protected readonly entitySchemaFactory: EntitySchemaFactory<
+      TSchema,
+      TEntity
+    >,
   ) {}
 
-  async create(
-    document: Omit<TDocument, '_id'>,
-    options?: SaveOptions,
-  ): Promise<TDocument> {
-    const createdDocument = new this.model({
-      ...document,
-      _id: new Types.ObjectId(),
-    });
-    return (
-      await createdDocument.save(options)
-    ).toJSON() as unknown as TDocument;
+  async create(entity: TEntity): Promise<void> {
+    await new this.entityModel(this.entitySchemaFactory.create(entity)).save();
   }
 
-  async findOne(filterQuery: FilterQuery<TDocument>) {
-    const document = (await this.model.findOne(
+  async findAll(): Promise<TEntity[]> {
+    return (await this.entityModel.find()).map((entitySchema) =>
+      this.entitySchemaFactory.createFromSchema(entitySchema),
+    );
+  }
+
+  async findOne(filterQuery: FilterQuery<TEntity>): Promise<TEntity> {
+    const document = (await this.entityModel.findOne(
       filterQuery,
       {},
       { lean: true },
-    )) as TDocument;
+    )) as TSchema;
 
     if (!document) {
-      this.logger.warn('Document not found with filterQuery', filterQuery);
       throw new NotFoundException('Document not found.');
     }
 
-    return document;
+    return this.entitySchemaFactory.createFromSchema(document);
   }
 
-  async findOneAndUpdate(
-    filterQuery: FilterQuery<TDocument>,
-    update: UpdateQuery<TDocument>,
-  ): Promise<TDocument> {
-    const document = (await this.model.findOneAndUpdate(filterQuery, update, {
-      lean: true,
-      new: true,
-    })) as TDocument;
+  protected async find(
+    entityFilterQuery: FilterQuery<TEntity>,
+  ): Promise<TEntity[]> {
+    const entitySchemas = (await this.entityModel.find(
+      entityFilterQuery,
+      {},
+      { lean: true },
+    )) as TSchema[];
 
-    if (!document) {
-      this.logger.warn(`Document not found with filterQuery:`, filterQuery);
-      throw new NotFoundException('Document not found.');
-    }
-
-    return document;
+    return entitySchemas.map((entitySchema) =>
+      this.entitySchemaFactory.createFromSchema(entitySchema),
+    );
   }
 
-  async upsert(
-    filterQuery: FilterQuery<TDocument>,
-    document: Partial<TDocument>,
-  ): Promise<any> {
-    return this.model.findOneAndUpdate(filterQuery, document, {
-      lean: true,
-      upsert: true,
-      new: true,
-    });
+  protected async findOneAndReplace(
+    entityFilterQuery: FilterQuery<TEntity>,
+    entity: TEntity,
+  ): Promise<void> {
+    const entitySchema = this.entitySchemaFactory.create(entity);
+    await this.entityModel.findOneAndReplace(entityFilterQuery, entitySchema);
   }
 
-  async find(filterQuery: FilterQuery<TDocument>): Promise<any> {
-    return this.model.find(filterQuery, {}, { lean: true });
-  }
+  // async findOneAndUpdate(
+  //   filterQuery: FilterQuery<TSchema>,
+  //   update: UpdateQuery<TEntity>,
+  // ): Promise<TSchema> {
+  //   const document = (await this.model.findOneAndUpdate(filterQuery, update, {
+  //     lean: true,
+  //     new: true,
+  //   })) as TSchema;
 
-  async startTransaction(): Promise<ClientSession> {
-    const session = await this.connection.startSession();
-    session.startTransaction();
-    return session;
-  }
+  //   if (!document) {
+  //     this.logger.warn(`Document not found with filterQuery:`, filterQuery);
+  //     throw new NotFoundException('Document not found.');
+  //   }
+
+  //   return document;
+  // }
+
+  // async upsert(
+  //   filterQuery: FilterQuery<TSchema>,
+  //   document: Partial<TSchema>,
+  // ): Promise<any> {
+  //   return this.model.findOneAndUpdate(filterQuery, document, {
+  //     lean: true,
+  //     upsert: true,
+  //     new: true,
+  //   });
+  // }
+
+  // async find(filterQuery: FilterQuery<TSchema>): Promise<any> {
+  //   return this.model.find(filterQuery, {}, { lean: true });
+  // }
+
+  // async startTransaction(): Promise<ClientSession> {
+  //   const session = await this.connection.startSession();
+  //   session.startTransaction();
+  //   return session;
+  // }
 }

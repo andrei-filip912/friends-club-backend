@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
-import { InteractionController } from '../application/interaction.controller';
-import { InteractionService } from '../domain/interaction.service';
+import { InteractionController } from './interaction/interaction.controller';
+import { InteractionService } from './domain/interaction.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from '@friends-club/common';
-import { ReactionRepository } from './reaction.repository';
+import { ReactionRepository } from './infrastructure/reaction.repository';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ReactionDocument, ReactionSchema } from './reaction.schema';
+import {
+  ReactionDocument,
+  ReactionSchema,
+} from './infrastructure/reaction.schema';
 import { RmqModule } from '@friends-club/common';
 
 @Module({

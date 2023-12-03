@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { InteractionModule } from './infrastructure/interaction.module';
+import { InteractionModule } from './interaction.module';
 import { RmqService } from '@friends-club/common';
 
 async function bootstrap() {
