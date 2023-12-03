@@ -4,7 +4,7 @@ import { Ctx, EventPattern, Payload } from '@nestjs/microservices';
 import { RmqContext } from '@nestjs/microservices';
 import { RmqService } from '@friends-club/common';
 
-@Controller('interaction')
+@Controller()
 export class PostController {
   constructor(
     private readonly interactionService: InteractionService,

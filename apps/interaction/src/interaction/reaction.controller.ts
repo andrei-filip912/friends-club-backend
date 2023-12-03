@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 
-@Controller('interaction')
+@Controller('reactions')
 export class ReactionController {
   constructor() {}
 

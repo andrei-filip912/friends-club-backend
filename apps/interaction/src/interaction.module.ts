@@ -4,12 +4,12 @@ import { InteractionService } from './domain/interaction.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from '@friends-club/common';
-import { ReactionRepository } from './infrastructure/reaction.repository';
+import { ReactionEntityRepository } from './interaction/db/reaction-entity.repository';
+
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  ReactionDocument,
-  ReactionSchema,
-} from './infrastructure/reaction.schema';
+import { ReactionSchema } from './interaction/db/reaction.schema';
+import { Reaction } from './interaction/Reaction';
+
 import { RmqModule } from '@friends-club/common';
 import { ReactionController } from './interaction/reaction.controller';
 
@@ -26,11 +26,11 @@ import { ReactionController } from './interaction/reaction.controller';
     }),
     DatabaseModule,
     MongooseModule.forFeature([
-      { name: ReactionDocument.name, schema: ReactionSchema },
+      { name: Reaction.name, schema: ReactionSchema },
     ]),
     RmqModule,
   ],
   controllers: [PostController, ReactionController],
-  providers: [InteractionService, ReactionRepository],
+  providers: [InteractionService, ReactionEntityRepository],
 })
 export class InteractionModule {}
