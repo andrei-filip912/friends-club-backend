@@ -10,7 +10,7 @@ RUN pnpm install
 
 COPY . .
 
-EXPOSE 8001
+EXPOSE 8000
 
 RUN pnpm run build
 
@@ -32,6 +32,6 @@ COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-EXPOSE 8001
+EXPOSE 8000
 
 CMD ["node", "dist/apps/interaction/main"]
