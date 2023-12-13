@@ -12,6 +12,14 @@ build:
        dest: .
     docker:
       dockerfile: ./apps/post/Dockerfile
+  - image: af912/interaction-friends-club
+    context: .
+    sync:
+     manual:
+     - src: src/**/*.ts
+       dest: .
+    docker:
+      dockerfile: ./apps/interaction/Dockerfile
   - image: af912/client-friends-club
     context: ../friends-club-frontend/
     sync:
