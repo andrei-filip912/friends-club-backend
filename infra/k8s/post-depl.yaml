@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-depl
+spec:
+  selector:
+    matchLabels:
+      app: post
+  # replicas: 2
+  template:
+    metadata:
+      labels:
+        app: post
+    spec:
+      volumes:
+      - name: post-volume
+        secret:
+          secretName: ssl
+      containers:
+      - name: post
+        image: af912/post-friends-club:latest
+        resources:
+          limits:
+            memory: "400Mi"
+            cpu: "500m"
+        envFrom:
+        - secretRef:
+            name: post
+        env:
+          - name: MYSQL_SSL_PATH
+            valueFrom:
+              secretKeyRef:
+                name: ssl
+                key: DigiCertGlobalRootCA.crt.pem
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: post-volume
+          mountPath: /secrets
+          readOnly: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: post-srv
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 8000
+  selector:
+    app: post
+

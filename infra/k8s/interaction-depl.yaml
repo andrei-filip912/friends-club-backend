@@ -1,39 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: post-depl
+  name: interaction-depl
 spec:
   selector:
     matchLabels:
-      app: post
+      app: interaction
   # replicas: 2
   template:
     metadata:
       labels:
-        app: post
+        app: interaction
     spec:
       containers:
-      - name: post
-        image: af912/post-friends-club:latest
+      - name: interaction
+        image: af912/interaction-friends-club:latest
         resources:
           limits:
             memory: "400Mi"
             cpu: "500m"
         envFrom:
         - secretRef:
-            name: post
+            name: interaction
         ports:
         - containerPort: 8000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: post-srv
+  name: interaction-srv
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 8000
   selector:
-    app: post
+    app: interaction
 
