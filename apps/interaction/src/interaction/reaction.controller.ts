@@ -3,7 +3,7 @@ import { CommandBus } from '@nestjs/cqrs';
 import { CreateReactionRequest } from './dto/create-reaction-request.dto';
 import { CreateReactionCommand } from './commands/create-reaction/create-reaction.command';
 
-@Controller('reactions')
+@Controller('reaction')
 export class ReactionController {
   constructor(private readonly commandBus: CommandBus) {}
 
