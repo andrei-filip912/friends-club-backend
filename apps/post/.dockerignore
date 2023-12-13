@@ -2,15 +2,22 @@
 .git
 .gitignore
 .dockerignore
+.github
 
+.vscode
 # Build dependencies
 dist.do
 node_modules
 
 # Environment (contains sensitive data)
-*.env
+*.env*
 
 # Misc
 .eslintrc.js
 .prettierrc
 README.md
+
+infra/*
+skaffold.yaml
+.prettierrc
+.eslintrc

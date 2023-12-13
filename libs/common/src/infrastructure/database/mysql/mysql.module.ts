@@ -14,6 +14,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         password: configService.get<string>('MYSQL_PASSWORD'),
         autoLoadEntities: true,
         synchronize: configService.get<string>('MYSQL_SYNCHRONIZE') === 'true',
+        ssl: {
+          ca: configService.get<string>('MYSQL_SSL_PATH'),
+        },
       }),
       inject: [ConfigService],
     }),
