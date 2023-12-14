@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -12,6 +13,7 @@ import { CommandBus } from '@nestjs/cqrs';
 import { CreateReactionCommand } from './commands/create-reaction/create-reaction.command';
 import { CreateReactionRequest } from './dto/create-reaction-request.dto';
 import { AuthRequest } from '@friends-club/common';
+import { CreateOrUpdateReactionCommand } from './commands/create-or-update-reaction/create-or-update-reaction.command';
 
 @Controller('reaction')
 @UseGuards(AuthorizationGuard)
@@ -32,6 +34,17 @@ export class ReactionController {
     createReactionRequest.userId = req.auth.sub;
     await this.commandBus.execute<CreateReactionCommand, void>(
       new CreateReactionCommand(createReactionRequest),
+    );
+  }
+
+  @Put()
+  async createOrUpdateReaction(
+    @Req() req: AuthRequest,
+    @Body() createReactionRequest: CreateReactionRequest,
+  ): Promise<void> {
+    createReactionRequest.userId = req.auth.sub;
+    await this.commandBus.execute<CreateOrUpdateReactionCommand, void>(
+      new CreateOrUpdateReactionCommand(createReactionRequest),
     );
   }
 

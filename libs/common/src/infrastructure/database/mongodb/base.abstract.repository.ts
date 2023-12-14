@@ -1,7 +1,7 @@
 import { EntitySchemaFactory } from '@friends-club/common';
 import { NotFoundException } from '@nestjs/common';
 import { AggregateRoot } from '@nestjs/cqrs';
-import { FilterQuery, Model } from 'mongoose';
+import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { AbstractSchema } from './base.abstract.schema';
 
 export abstract class AbstractRepository<
@@ -64,6 +64,46 @@ export abstract class AbstractRepository<
     await this.entityModel.findOneAndReplace(entityFilterQuery, entitySchema);
   }
 
+  // async update(
+  //   filterQuery: FilterQuery<TSchema>,
+  //   entity: Partial<TEntity>,
+  // ): Promise<any> {
+  //   return this.entityModel.findOneAndUpdate(filterQuery, entity, {
+  //     lean: true,
+  //     new: true,
+  //   });
+  // }
+
+  async upsert(
+    filterQuery: FilterQuery<TEntity>,
+    entity: TEntity,
+  ): Promise<any> {
+    const entitySchema = this.entitySchemaFactory.create(entity);
+    const { _id, ...entitySchemaWithoutId } = entitySchema;
+    const updatedDocument = await this.entityModel.findOneAndUpdate(
+      filterQuery,
+      entitySchemaWithoutId as UpdateQuery<TSchema>,
+      { new: true, upsert: true },
+    );
+
+    if (!updatedDocument) {
+      throw new NotFoundException('Document not found.');
+    }
+    return updatedDocument;
+  }
+
+  // async upsert(
+  //   filterQuery: FilterQuery<TSchema>,
+  //   entity: TEntity,
+  // ): Promise<any> {
+  //   const entitySchema = this.entitySchemaFactory.create(entity);
+  //   return this.entityModel.findOneAndUpdate(filterQuery, entitySchema, {
+  //     lean: true,
+  //     upsert: true,
+  //     new: true,
+  //   });
+  // }
+
   // async findOneAndUpdate(
   //   filterQuery: FilterQuery<TSchema>,
   //   update: UpdateQuery<TEntity>,
@@ -79,17 +119,6 @@ export abstract class AbstractRepository<
   //   }
 
   //   return document;
-  // }
-
-  // async upsert(
-  //   filterQuery: FilterQuery<TSchema>,
-  //   document: Partial<TSchema>,
-  // ): Promise<any> {
-  //   return this.model.findOneAndUpdate(filterQuery, document, {
-  //     lean: true,
-  //     upsert: true,
-  //     new: true,
-  //   });
   // }
 
   // async find(filterQuery: FilterQuery<TSchema>): Promise<any> {
