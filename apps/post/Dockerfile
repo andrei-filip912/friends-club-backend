@@ -10,7 +10,7 @@ RUN pnpm install
 
 COPY . .
 
-RUN pnpm run build
+RUN pnpm run build post
 
 EXPOSE 8000
 
@@ -27,7 +27,7 @@ COPY package*.json ./
 
 RUN pnpm install --prod
 
-COPY . .
+# COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
