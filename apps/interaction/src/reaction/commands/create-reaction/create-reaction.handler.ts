@@ -16,7 +16,7 @@ export class CreateReactionHandler
   }: CreateReactionCommand): Promise<any> {
     const { userId, postId, reactionType } = createReactionRequest;
     const reaction = this.eventPublisher.mergeObjectContext(
-      await this.reactionFactory.create(userId, postId, reactionType),
+      await this.reactionFactory.create(userId!, postId, reactionType),
     );
     reaction.commit();
   }

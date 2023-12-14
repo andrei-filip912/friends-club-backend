@@ -11,6 +11,7 @@ import {
 import { CommandBus } from '@nestjs/cqrs';
 import { CreateReactionCommand } from './commands/create-reaction/create-reaction.command';
 import { CreateReactionRequest } from './dto/create-reaction-request.dto';
+import { AuthRequest } from '@friends-club/common';
 
 @Controller('reaction')
 @UseGuards(AuthorizationGuard)
@@ -25,10 +26,10 @@ export class ReactionController {
 
   @Post()
   async createReaction(
-    @Req() req: Request,
+    @Req() req: AuthRequest,
     @Body() createReactionRequest: CreateReactionRequest,
   ): Promise<void> {
-    console.log(req);
+    createReactionRequest.userId = req.auth.sub;
     await this.commandBus.execute<CreateReactionCommand, void>(
       new CreateReactionCommand(createReactionRequest),
     );

@@ -15,3 +15,4 @@ export * from './infrastructure/auth/auth.guard';
 export * from './infrastructure/auth/auth.module';
 export * from './domain/enums/reaction-type.enum';
 export * from './infrastructure/database/mongodb/mongodb.interface.schema-factory';
+export * from './domain/Interfaces/auth-reqiest.interface';

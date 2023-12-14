@@ -3,17 +3,17 @@ import { PostController } from './post/post.controller';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { DatabaseModule } from '@friends-club/common';
-import { ReactionEntityRepository } from './interaction/db/reaction-entity.repository';
+import { ReactionEntityRepository } from './reaction/db/reaction-entity.repository';
 
 import { MongooseModule, SchemaFactory } from '@nestjs/mongoose';
-import { ReactionSchema } from './interaction/db/reaction.schema';
+import { ReactionSchema } from './reaction/db/reaction.schema';
 
 import { RmqModule } from '@friends-club/common';
-import { ReactionController } from './interaction/reaction.controller';
-import { ReactionSchemaFactory } from './interaction/db/reaction-schema.factory';
-import { ReactionFactory } from './interaction/reaction.factory';
-import { ReactionCommandHandlers } from './interaction/commands';
-import { ReactionEventHandlers } from './interaction/events';
+import { ReactionController } from './reaction/reaction.controller';
+import { ReactionSchemaFactory } from './reaction/db/reaction-schema.factory';
+import { ReactionFactory } from './reaction/reaction.factory';
+import { ReactionCommandHandlers } from './reaction/commands';
+import { ReactionEventHandlers } from './reaction/events';
 import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({

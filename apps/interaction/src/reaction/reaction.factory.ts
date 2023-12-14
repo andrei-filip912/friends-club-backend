@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { Reaction } from './Reaction';
 import { ReactionCreatedEvent } from './events/reaction-created/reaction-create.event';
-import { ReactionEntityRepository } from '../interaction/db/reaction-entity.repository';
+import { ReactionEntityRepository } from '../reaction/db/reaction-entity.repository';
 
 @Injectable()
 export class ReactionFactory implements EntityFactory<Reaction> {
