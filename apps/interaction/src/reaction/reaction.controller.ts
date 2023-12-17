@@ -1,4 +1,4 @@
-import { AuthorizationGuard } from '@friends-club/common';
+import { AuthRequest, AuthorizationGuard } from '@friends-club/common';
 import {
   Body,
   Controller,
@@ -6,27 +6,36 @@ import {
   Get,
   Post,
   Put,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
-import { CreateReactionCommand } from './commands/create-reaction/create-reaction.command';
-import { CreateReactionRequest } from './dto/create-reaction-request.dto';
-import { AuthRequest } from '@friends-club/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateOrUpdateReactionCommand } from './commands/create-or-update-reaction/create-or-update-reaction.command';
+import { CreateReactionCommand } from './commands/create-reaction/create-reaction.command';
 import { DeleteReactionCommand } from './commands/delete-reaction/delete-reaction.command';
+import { CreateReactionRequest } from './dto/create-reaction-request.dto';
 import { DeleteReactionRequest } from './dto/delete-reaction-request.dto';
+import { ReactionDto } from './dto/reaction.dto';
+import { ReactionPerPostQuery } from './queries/reactions-per-post.query.ts/reaction-per-post.query';
+import { ReactionPerPostRequest } from './dto/reaction-per-post-request.dto';
 
 @Controller('reaction')
 @UseGuards(AuthorizationGuard)
 export class ReactionController {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
-  @Get(':id')
-  async getReaction(): Promise<void> {}
-
-  @Get()
-  async getReactions(): Promise<void> {}
+  @Get('?')
+  async getReaction(
+    @Query() reaction: ReactionPerPostRequest,
+  ): Promise<ReactionDto[]> {
+    return this.queryBus.execute<ReactionPerPostQuery, ReactionDto[]>(
+      new ReactionPerPostQuery(reaction),
+    );
+  }
 
   @Post()
   async createReaction(

@@ -15,6 +15,8 @@ import { ReactionFactory } from './reaction/reaction.factory';
 import { ReactionCommandHandlers } from './reaction/commands';
 import { ReactionEventHandlers } from './reaction/events';
 import { CqrsModule } from '@nestjs/cqrs';
+import { ReactionQueryHandlers } from './reaction/queries';
+import { ReactionDtoRepository } from './reaction/db/reaction-dto.repository';
 
 @Module({
   imports: [
@@ -40,10 +42,12 @@ import { CqrsModule } from '@nestjs/cqrs';
   controllers: [PostController, ReactionController],
   providers: [
     ReactionEntityRepository,
+    ReactionDtoRepository,
     ReactionSchemaFactory,
     ReactionFactory,
     ...ReactionCommandHandlers,
     ...ReactionEventHandlers,
+    ...ReactionQueryHandlers,
   ],
 })
 export class InteractionModule {}
