@@ -92,6 +92,10 @@ export abstract class AbstractRepository<
     return updatedDocument;
   }
 
+  async delete(filterQuery: FilterQuery<TEntity>): Promise<any> {
+    return await this.entityModel.findOneAndDelete(filterQuery);
+  }
+
   // async upsert(
   //   filterQuery: FilterQuery<TSchema>,
   //   entity: TEntity,

@@ -14,6 +14,8 @@ import { CreateReactionCommand } from './commands/create-reaction/create-reactio
 import { CreateReactionRequest } from './dto/create-reaction-request.dto';
 import { AuthRequest } from '@friends-club/common';
 import { CreateOrUpdateReactionCommand } from './commands/create-or-update-reaction/create-or-update-reaction.command';
+import { DeleteReactionCommand } from './commands/delete-reaction/delete-reaction.command';
+import { DeleteReactionRequest } from './dto/delete-reaction-request.dto';
 
 @Controller('reaction')
 @UseGuards(AuthorizationGuard)
@@ -49,5 +51,13 @@ export class ReactionController {
   }
 
   @Delete()
-  async deleteReaction(): Promise<void> {}
+  async deleteReaction(
+    @Req() req: AuthRequest,
+    @Body() deleteReactionRequest: DeleteReactionRequest,
+  ): Promise<void> {
+    deleteReactionRequest.userId = req.auth.sub;
+    await this.commandBus.execute<DeleteReactionCommand, void>(
+      new DeleteReactionCommand(deleteReactionRequest),
+    );
+  }
 }
