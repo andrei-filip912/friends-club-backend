@@ -5,6 +5,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "6m"
     # nginx.ingress.kubernetes.io/use-regex: "true"
   labels:
     name: friends-club-ingress
