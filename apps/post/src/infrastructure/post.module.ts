@@ -48,7 +48,7 @@ import { HttpModule } from '@nestjs/axios';
     TypeOrmModule.forFeature([PostDbEntity, PostDto]),
     SqlDatabaseModule,
     TerminusModule,
-    HttpModule
+    HttpModule,
   ],
   controllers: [PostController, HealthController],
   providers: [
