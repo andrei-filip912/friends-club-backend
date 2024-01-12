@@ -10,7 +10,7 @@ RUN pnpm install
 
 COPY . .
 
-RUN pnpm run build post
+RUN pnpm run build user
 
 EXPOSE 8000
 
@@ -33,4 +33,4 @@ COPY --from=development /usr/src/app/dist ./dist
 
 EXPOSE 8000
 
-CMD ["node", "dist/apps/post/main"]
+CMD ["node", "dist/apps/user/main"]
