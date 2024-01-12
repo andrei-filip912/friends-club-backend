@@ -7,6 +7,8 @@ import { UpdatePostCaptionRequest } from '../../src/application/dto/update-post-
 import { DeletePostRequest } from '../../src/application/dto/delete-post-request.dto';
 import * as fs from 'fs';
 import { Readable } from 'stream';
+import { AuthorizationGuard } from '@friends-club/common';
+import { CanActivate } from '@nestjs/common';
 
 jest.mock('@nestjs/cqrs');
 
@@ -47,10 +49,17 @@ describe('PostController', () => {
   ];
 
   beforeEach(async () => {
+    const mock_Guard: CanActivate = {
+      canActivate: jest.fn(() => true),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PostController],
       providers: [CommandBus, QueryBus],
-    }).compile();
+    })
+      .overrideGuard(AuthorizationGuard)
+      .useValue(mock_Guard)
+      .compile();
 
     postController = module.get<PostController>(PostController);
     commandBus = module.get<CommandBus>(CommandBus);

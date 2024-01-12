@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { BaseAbstractRepository } from '@friends-club/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Post } from '../domain/entities/Post';
+import { PostRepositoryInterface } from '../domain/interfaces/post.repository.interface';
 import { PostDbEntity } from './post.db-entity';
 import { PostDbEntityFactory } from './post.db-entity.factory';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PostRepositoryInterface } from '../domain/interfaces/post.repository.interface';
 
 @Injectable()
 export class PostRepository

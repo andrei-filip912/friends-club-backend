@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
 
-export interface IAbstractDocument {
+export interface IAbstractSchema {
   _id: Types.ObjectId;
 }

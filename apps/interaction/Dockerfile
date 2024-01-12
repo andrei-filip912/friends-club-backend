@@ -10,9 +10,9 @@ RUN pnpm install
 
 COPY . .
 
-EXPOSE 8001
+EXPOSE 8000
 
-RUN pnpm run build
+RUN pnpm run build interaction
 
 
 FROM node:20-slim as production
@@ -28,10 +28,10 @@ COPY package*.json ./
 
 RUN pnpm install --prod
 
-COPY . .
+# COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-EXPOSE 8001
+EXPOSE 8000
 
 CMD ["node", "dist/apps/interaction/main"]

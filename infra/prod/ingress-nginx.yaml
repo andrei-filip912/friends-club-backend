@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: friends-club-ingress
+  annotations:
+    # appgw.ingress.kubernetes.io/ssl-redirect: 'true'
+    appgw.ingress.kubernetes.io/backend-path-prefix: "/"
+  labels:
+    name: friends-club-ingress
+spec:
+  ingressClassName: azure-application-gateway
+  # tls:
+  # - secretName: nginx-cert
+  #   hosts:
+  #     - friends-club.dev
+  rules:
+  - http:
+      paths:
+      - pathType: ImplementationSpecific
+        path: /api/post/*
+        backend:
+          service:
+            name: post-srv
+            port: 
+              number: 8000
+      - pathType: ImplementationSpecific
+        path: /api/reaction/*
+        backend:
+          service:
+            name: interaction-srv
+            port: 
+              number: 8000
+      - pathType: ImplementationSpecific
+        path: /*
+        backend:
+          service:
+            name: client-srv
+            port: 
+              number: 3000
