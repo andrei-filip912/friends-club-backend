@@ -52,7 +52,8 @@
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.6",
     "testcontainers": "^10.2.2",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "user": "^0.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
