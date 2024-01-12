@@ -19,6 +19,9 @@ import { PostDbEntityFactory } from './post.db-entity.factory';
 import { PostQueryHandlers } from '../application/queries';
 import { PostDtoRepository } from './post-dto.repository';
 import { PostDto } from '../application/dto/post.dto';
+import { TerminusModule } from '@nestjs/terminus';
+import { HealthController } from '../application/health.controller';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -44,8 +47,10 @@ import { PostDto } from '../application/dto/post.dto';
     CqrsModule,
     TypeOrmModule.forFeature([PostDbEntity, PostDto]),
     SqlDatabaseModule,
+    TerminusModule,
+    HttpModule
   ],
-  controllers: [PostController],
+  controllers: [PostController, HealthController],
   providers: [
     PostRepository,
     PostDbEntity,

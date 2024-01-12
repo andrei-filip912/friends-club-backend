@@ -6,6 +6,11 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "6m"
+    nginx.ingress.kubernetes.io/upstream-healthcheck-path: "/api/post/health"
+    nginx.ingress.kubernetes.io/upstream-healthcheck-interval: "10"
+    nginx.ingress.kubernetes.io/upstream-healthcheck-timeout: "5"
+    nginx.ingress.kubernetes.io/upstream-healthcheck-fails: "3"
+    nginx.ingress.kubernetes.io/upstream-healthcheck-passes: "1"
     # nginx.ingress.kubernetes.io/use-regex: "true"
   labels:
     name: friends-club-ingress
