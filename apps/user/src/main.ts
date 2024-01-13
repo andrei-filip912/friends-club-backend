@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { UserModule } from './user.module';
+import { UserModule } from './user/user.module';
 // import { RmqService } from '@friends-club/common';
 
 async function bootstrap() {

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { USER_POST_SERVICE, USER_INTERACTION_SERVICE } from './services';
+import { USER_POST_SERVICE, USER_INTERACTION_SERVICE } from '../services';
 
 @Injectable()
 export class UserService {

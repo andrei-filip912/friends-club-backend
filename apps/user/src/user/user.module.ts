@@ -4,7 +4,7 @@ import * as Joi from 'joi';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { RmqModule } from '@friends-club/common';
-import { USER_INTERACTION_SERVICE, USER_POST_SERVICE } from './services';
+import { USER_INTERACTION_SERVICE, USER_POST_SERVICE } from '../services';
 
 @Module({
   imports: [
