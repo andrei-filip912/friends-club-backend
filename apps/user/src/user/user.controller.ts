@@ -2,8 +2,8 @@ import { Controller, Delete, Get, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthorizationGuard } from '@friends-club/common';
 
-// @UseGuards(AuthorizationGuard)
 @Controller('user')
+@UseGuards(AuthorizationGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
