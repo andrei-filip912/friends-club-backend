@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { PostModule } from './infrastructure/post.module';
+import { RmqService } from '@friends-club/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(PostModule);
@@ -9,5 +10,9 @@ async function bootstrap() {
   });
   app.setGlobalPrefix('api');
   await app.listen(8000);
+
+  const rmqService = app.get<RmqService>(RmqService);
+  await app.connectMicroservice(rmqService.getOptions('USER'));
+  app.startAllMicroservices();
 }
 bootstrap();

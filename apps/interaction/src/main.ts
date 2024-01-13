@@ -9,10 +9,13 @@ async function bootstrap() {
     origin: 'https://friends-club.dev:3000',
     // credentials: true,
   });
-  const rmqService = app.get<RmqService>(RmqService);
-  app.connectMicroservice(rmqService.getOptions('INTERACTION'));
-  await app.startAllMicroservices();
   await app.listen(8000);
+
+  const rmqService = app.get<RmqService>(RmqService);
+  await app.connectMicroservice(rmqService.getOptions('INTERACTION'));
+  await app.connectMicroservice(rmqService.getOptions('USER'));
+  await app.startAllMicroservices();
+  app.startAllMicroservices();
 }
 bootstrap();
 
