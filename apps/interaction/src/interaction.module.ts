@@ -27,7 +27,7 @@ import { UserController } from './user/user.controller';
         MONGODB_URI: Joi.string().required(),
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_INTERACTION_QUEUE: Joi.string().required(),
-        RABBIT_MQ_USER_QUEUE: Joi.string().required(),
+        RABBIT_MQ_USER_INTERACTION_QUEUE: Joi.string().required(),
       }),
       envFilePath: './apps/interaction/.env',
     }),

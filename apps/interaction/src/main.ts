@@ -13,8 +13,7 @@ async function bootstrap() {
 
   const rmqService = app.get<RmqService>(RmqService);
   await app.connectMicroservice(rmqService.getOptions('INTERACTION'));
-  await app.connectMicroservice(rmqService.getOptions('USER'));
-  await app.startAllMicroservices();
+  await app.connectMicroservice(rmqService.getOptions('USER_INTERACTION'));
   app.startAllMicroservices();
 }
 bootstrap();

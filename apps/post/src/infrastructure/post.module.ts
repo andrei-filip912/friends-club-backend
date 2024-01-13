@@ -41,7 +41,7 @@ import { UserController } from '../user/user.controller';
         MYSQL_SSL_PATH: Joi.string().required(),
         AUTH0_AUDIENCE: Joi.string().required(),
         AUTH0_DOMAIN: Joi.string().required(),
-        RABBIT_MQ_USER_QUEUE: Joi.string().required(),
+        RABBIT_MQ_USER_POST_QUEUE: Joi.string().required(),
       }),
       envFilePath: './apps/post/.env',
     }),

@@ -12,7 +12,7 @@ async function bootstrap() {
   await app.listen(8000);
 
   const rmqService = app.get<RmqService>(RmqService);
-  await app.connectMicroservice(rmqService.getOptions('USER'));
+  await app.connectMicroservice(rmqService.getOptions('USER_POST'));
   app.startAllMicroservices();
 }
 bootstrap();
