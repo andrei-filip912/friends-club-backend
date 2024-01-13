@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-// import { RmqModule } from '@friends-club/common';
-// import { USER_SERVICE } from './services';
-import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { RmqModule } from '@friends-club/common';
+import { USER_SERVICE } from './services';
 
 @Module({
   imports: [
@@ -19,16 +18,7 @@ import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
       }),
       envFilePath: './apps/user/.env.local',
     }),
-    // RmqModule.register({ queueNames: [USER_SERVICE] }),
-    RabbitMQModule.forRoot(RabbitMQModule, {
-      exchanges: [
-        {
-          name: 'user_exchange',
-          type: 'fanout',
-        },
-      ],
-      uri: 'amqps://ikuokxnz:d_ERuhAFJekJXii6EFriNQ6rPQpi5De4@whale.rmq.cloudamqp.com/ikuokxnz',
-    }),
+    RmqModule.register({ queueNames: [USER_SERVICE] }),
   ],
   controllers: [UserController],
   providers: [UserService],

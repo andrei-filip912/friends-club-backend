@@ -9,7 +9,6 @@ export class UserController {
   @EventPattern('user.deleted')
   async handleUserDeleted(@Payload() data: any, @Ctx() context: RmqContext) {
     console.log('user deleted in interaction', data);
-    //this.interactionService.deletePost(data);
     this.rmqService.ack(context);
   }
 }
