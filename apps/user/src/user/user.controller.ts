@@ -1,5 +1,13 @@
 import { AuthRequest, AuthorizationGuard } from '@friends-club/common';
-import { Controller, Delete, Get, Param, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Req,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -18,8 +26,7 @@ export class UserController {
     @Req() req: AuthRequest,
   ): Promise<void> {
     if (userId != req.auth.sub) {
-      console.log(req.auth);
-      throw new Error('ids do not match');
+      throw new UnauthorizedException('Ids do not match');
     }
 
     return this.userService.deleteUser(userId);

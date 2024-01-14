@@ -31,18 +31,13 @@ export class UserService {
           audience: this.configService.get<string>('AUDIENCE'),
         },
       );
-      console.log(data.access_token);
 
       // delete user info
-      const res = await this.httpService.axiosRef.delete(
-        `${baseUrl}api/v2/users/${id}`,
-        {
-          headers: {
-            Authorization: 'Bearer ' + data.access_token,
-          },
+      await this.httpService.axiosRef.delete(`${baseUrl}api/v2/users/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + data.access_token,
         },
-      );
-      console.log(res);
+      });
 
       // emit events
       // to be replace with emitting a single event using fanout type exchange
