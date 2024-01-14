@@ -25,11 +25,13 @@ export class Post extends AggregateRoot {
       this.userId = userId || '';
     } else {
       // Constructor without ID
-      this.caption = idOrCaption;
+      // Adjust the order of parameters in the following line
+      this.caption = idOrCaption as string;
       this.image_id = caption || '';
-      this.userId = userId || '';
+      this.userId = image_id || '';
     }
   }
+
   getId() {
     return this.id;
   }
