@@ -32,4 +32,8 @@ export class PostRepository
       caption: replacement.caption,
     });
   }
+
+  public async deleteUsersPosts(userId: string): Promise<void> {
+    await this.postRepository.delete({ userId });
+  }
 }
