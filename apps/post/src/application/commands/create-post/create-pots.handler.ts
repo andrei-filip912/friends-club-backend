@@ -11,10 +11,10 @@ export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
   ) {}
 
   async execute({ createPostRequest }: CreatePostCommand): Promise<PostDto> {
-    const { image, caption } = createPostRequest;
+    const { image, caption, userId } = createPostRequest;
 
     const post = this.eventPublisher.mergeObjectContext(
-      await this.postFactory.create(caption, image),
+      await this.postFactory.create(caption, image, userId),
     );
 
     post.commit();
