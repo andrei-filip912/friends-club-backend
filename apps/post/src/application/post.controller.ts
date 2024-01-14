@@ -7,6 +7,7 @@ import {
   Body,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreatePostCommand } from './commands/create-post/create-post.command';
@@ -20,7 +21,7 @@ import { PostQuery } from './queries/post.query';
 import { PostDto } from './dto/post.dto';
 import { DeletePostRequest } from './dto/delete-post-request.dto';
 import { DeletePostCommand } from './commands/delete-post/delete-post.command';
-import { AuthorizationGuard } from '@friends-club/common';
+import { AuthRequest, AuthorizationGuard } from '@friends-club/common';
 
 @Controller('post')
 @UseGuards(AuthorizationGuard)
@@ -45,8 +46,10 @@ export class PostController {
   async createPost(
     @UploadedFile() image: Express.Multer.File,
     @Body() createPostRequest: CreatePostRequest, // dto
+    @Req() req: AuthRequest,
   ): Promise<PostDto> {
     createPostRequest.image = image;
+    createPostRequest.userId = req.auth.sub;
 
     return this.commandBus.execute<CreatePostCommand, PostDto>(
       new CreatePostCommand(createPostRequest),
@@ -57,8 +60,10 @@ export class PostController {
   async updatedPostCaption(
     @Param('id') postId: number,
     @Body() updatePostCaptionRequest: UpdatePostCaptionRequest,
+    @Req() req: AuthRequest,
   ): Promise<PostDto> {
     updatePostCaptionRequest.postId = postId;
+    updatePostCaptionRequest.userId = req.auth.sub;
 
     return await this.commandBus.execute<UpdateCaptionCommand, PostDto>(
       new UpdateCaptionCommand(updatePostCaptionRequest),
@@ -68,8 +73,10 @@ export class PostController {
   async deletePost(
     @Param('id') postId: number,
     @Body() deletePostRequest: DeletePostRequest,
+    @Req() req: AuthRequest,
   ): Promise<void> {
     deletePostRequest.postId = postId;
+    deletePostRequest.userId = req.auth.sub;
 
     return await this.commandBus.execute<DeletePostCommand, void>(
       new DeletePostCommand(deletePostRequest),
