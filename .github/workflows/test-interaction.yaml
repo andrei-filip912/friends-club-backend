@@ -23,6 +23,6 @@ jobs:
       - name: Create build
         run: npx nest build interaction 
 
-      - name: Run tests
-        run: pnpm run test --testPathPattern=interaction
+      - name: Run unit tests
+        run: pnpm run test:interaction
       
