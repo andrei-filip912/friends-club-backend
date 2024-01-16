@@ -7,8 +7,9 @@ import { UpdatePostCaptionRequest } from '../../src/application/dto/update-post-
 import { DeletePostRequest } from '../../src/application/dto/delete-post-request.dto';
 import * as fs from 'fs';
 import { Readable } from 'stream';
-import { AuthorizationGuard } from '@friends-club/common';
+import { AuthRequest, AuthorizationGuard } from '@friends-club/common';
 import { CanActivate } from '@nestjs/common';
+import * as mocks from 'node-mocks-http';
 
 jest.mock('@nestjs/cqrs');
 
@@ -47,6 +48,18 @@ describe('PostController', () => {
       image_id: 'mno345pqr789abc',
     },
   ];
+
+  const userId = 'auth0|d23d2ef0effdv0kw';
+  const req = mocks.createRequest();
+  req.auth = {
+    iss: 'issuer',
+    sub: userId,
+    aud: ['audience1', 'audience2'],
+    iat: 1634630400, // replace with the desired timestamp
+    exp: 1634716800, // replace with the desired timestamp
+    azp: 'authorizedParty',
+    scope: 'read write',
+  };
 
   beforeEach(async () => {
     const mock_Guard: CanActivate = {
@@ -102,6 +115,7 @@ describe('PostController', () => {
       const createPostRequest: CreatePostRequest = {
         caption: 'Beautiful sunset at the beach',
         image: image,
+        userId: userId,
       };
       const expectedResult = postDtos[0];
 
@@ -109,9 +123,13 @@ describe('PostController', () => {
         .spyOn(commandBus, 'execute')
         .mockImplementation(() => Promise.resolve(expectedResult));
 
-      expect(await postController.createPost(image, createPostRequest)).toBe(
-        expectedResult,
-      );
+      expect(
+        await postController.createPost(
+          image,
+          createPostRequest,
+          req as unknown as AuthRequest,
+        ),
+      ).toBe(expectedResult);
     });
   });
 
@@ -121,6 +139,7 @@ describe('PostController', () => {
       const updatePostCaptionRequest: UpdatePostCaptionRequest = {
         postId: postDtos[0].id,
         caption: postDtos[0].caption,
+        userId: userId,
       };
       const expectedResult: PostDto = postDtos[0];
 
@@ -132,6 +151,7 @@ describe('PostController', () => {
         await postController.updatedPostCaption(
           postId,
           updatePostCaptionRequest,
+          req as unknown as AuthRequest,
         ),
       ).toBe(expectedResult);
     });
@@ -142,6 +162,7 @@ describe('PostController', () => {
       const postId = 1;
       const deletePostRequest: DeletePostRequest = {
         postId: postDtos[0].id,
+        userId: userId,
       };
 
       jest
@@ -149,7 +170,11 @@ describe('PostController', () => {
         .mockImplementation(() => Promise.resolve());
 
       expect(
-        await postController.deletePost(postId, deletePostRequest),
+        await postController.deletePost(
+          postId,
+          deletePostRequest,
+          req as unknown as AuthRequest,
+        ),
       ).toBeUndefined();
     });
   });

@@ -1,5 +1,5 @@
 import { AuthorizationGuard, SqlDatabaseModule } from '@friends-club/common';
-import { CanActivate, INestApplication } from '@nestjs/common';
+import { CanActivate, ExecutionContext, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeletePostRequest } from 'apps/post/src/application/dto/delete-post-request.dto';
 import { UpdatePostCaptionRequest } from 'apps/post/src/application/dto/update-post-caption-request.dto';
@@ -8,6 +8,23 @@ import * as request from 'supertest';
 import { PostRepository } from '../../src/infrastructure/post.db-entity.repository';
 import { PostModule } from '../../src/infrastructure/post.module';
 import { SqlMockModule } from '../utils/TypeORMSQLITETestingModule';
+import { CreatePostRequest } from 'apps/post/src/application/dto/create-post-request.dto';
+
+// mock values
+const image: Express.Multer.File = {
+  fieldname: 'image',
+  originalname: 'image.jpg',
+  encoding: '7bit',
+  mimetype: 'image/jpeg',
+  buffer: Buffer.from('mocked-image-content'),
+  size: 100, // Adjust the size accordingly
+  stream: Readable.from(['mocked-image-content']),
+  destination: '/path/to/destination',
+  filename: 'image.jpg',
+  path: '/path/to/destination/image.jpg',
+};
+
+const userId = 'auth0|d23d2ef0effdv0kw';
 
 describe('PostService (Integration)', () => {
   let app: INestApplication;
@@ -15,8 +32,26 @@ describe('PostService (Integration)', () => {
 
   beforeEach(async () => {
     const mock_Guard: CanActivate = {
-      canActivate: jest.fn(() => true),
+      canActivate: (context: ExecutionContext) => {
+        const req = context.switchToHttp().getRequest();
+
+        req.auth = {
+          iss: 'issuer',
+          sub: userId,
+          aud: ['audience1', 'audience2'],
+          iat: 1634630400,
+          exp: 1634716800,
+          azp: 'authorizedParty',
+          scope: 'read write',
+        };
+
+        return true;
+      },
     };
+
+    // {
+    //   canActivate: jest.fn(() => true),
+    // };
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [PostModule],
     })
@@ -61,21 +96,10 @@ describe('PostService (Integration)', () => {
 
     it('should create a new post that only contains an image and text', async () => {
       // arrange
-      const image: Express.Multer.File = {
-        fieldname: 'image',
-        originalname: 'image.jpg',
-        encoding: '7bit',
-        mimetype: 'image/jpeg',
-        buffer: Buffer.from('mocked-image-content'),
-        size: 100, // Adjust the size accordingly
-        stream: Readable.from(['mocked-image-content']),
-        destination: '/path/to/destination',
-        filename: 'image.jpg',
-        path: '/path/to/destination/image.jpg',
-      };
-      const createPostRequest = {
+      const createPostRequest: CreatePostRequest = {
         caption: 'Beautiful sunset at the beach',
         image: image,
+        userId: userId,
       };
 
       // act
@@ -111,6 +135,7 @@ describe('PostService (Integration)', () => {
       const updateRequest: UpdatePostCaptionRequest = {
         postId: initialPost.id,
         caption: 'Beautiful sunset at the beach in Turkey :) !!!',
+        userId: userId,
       };
 
       // act
@@ -133,7 +158,7 @@ describe('PostService (Integration)', () => {
       // create post to delete
       const createPostRequest = {
         caption: 'Beautiful sunset at the beach',
-        image: undefined,
+        image: image,
       };
       const response = await request(app.getHttpServer())
         .post('/post')
@@ -142,6 +167,7 @@ describe('PostService (Integration)', () => {
       const initialPost = await postRepository.findOneById(response.body.id);
       const deleteRequest: DeletePostRequest = {
         postId: initialPost.id,
+        userId: userId,
       };
 
       // act
