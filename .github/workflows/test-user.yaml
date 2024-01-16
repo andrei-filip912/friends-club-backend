@@ -1,9 +1,9 @@
-name: Test interaction
+name: Test user
 
 on: 
   pull_request:
     paths:
-      - "apps/interaction/**"
+      - "apps/user/**"
 
 jobs:
   build:
@@ -18,11 +18,8 @@ jobs:
         run: pnpm install
     
       - name: Lint code
-        run: npx eslint apps/interaction/**/*.ts --fix
+        run: npx eslint apps/user/**/*.ts --fix
 
       - name: Create build
-        run: npx nest build interaction 
-
-      - name: Run unit tests
-        run: pnpm run test:interaction
+        run: npx nest build user 
       

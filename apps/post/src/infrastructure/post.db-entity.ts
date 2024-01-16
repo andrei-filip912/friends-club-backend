@@ -8,4 +8,7 @@ export class PostDbEntity extends AbstractEntity {
 
   @Column()
   readonly image_id: string;
+
+  @Column()
+  readonly userId: string;
 }

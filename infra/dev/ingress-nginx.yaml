@@ -35,6 +35,13 @@ spec:
             port: 
               number: 8000
       - pathType: ImplementationSpecific
+        path: /api/user/?(.*)
+        backend:
+          service:
+            name: user-srv
+            port: 
+              number: 8000
+      - pathType: ImplementationSpecific
         path: /?(.*)
         backend:
           service:

@@ -5,13 +5,15 @@ export class Post extends AggregateRoot {
   readonly id: number;
   caption: string;
   readonly image_id: string;
+  readonly userId: string;
 
-  constructor(id: number, caption: string, image_id: string);
-  constructor(caption: string, image_id: string);
+  constructor(id: number, caption: string, image_id: string, userId: string);
+  constructor(caption: string, image_id: string, userId: string);
   constructor(
     idOrCaption: number | string,
     caption?: string,
     image_id?: string,
+    userId?: string,
   ) {
     super();
 
@@ -20,12 +22,16 @@ export class Post extends AggregateRoot {
       this.id = idOrCaption;
       this.caption = caption || '';
       this.image_id = image_id || '';
+      this.userId = userId || '';
     } else {
       // Constructor without ID
-      this.caption = idOrCaption;
+      // Adjust the order of parameters in the following line
+      this.caption = idOrCaption as string;
       this.image_id = caption || '';
+      this.userId = image_id || '';
     }
   }
+
   getId() {
     return this.id;
   }
@@ -34,6 +40,9 @@ export class Post extends AggregateRoot {
   }
   getImageId() {
     return this.image_id;
+  }
+  getUserId() {
+    return this.userId;
   }
 
   updateCaption(caption: string): void {

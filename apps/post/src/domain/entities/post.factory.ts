@@ -9,9 +9,13 @@ import { ImagePostAddedEvent } from '../../application/events/image-post-added/i
 export class PostFactory implements EntityFactory<Post> {
   constructor(private readonly postRepository: PostRepository) {}
 
-  async create(caption: string, image: Express.Multer.File): Promise<Post> {
+  async create(
+    caption: string,
+    image: Express.Multer.File,
+    userId: string,
+  ): Promise<Post> {
     const emptyImageId = '';
-    const post = new Post(caption, emptyImageId);
+    const post = new Post(caption, emptyImageId, userId);
     await this.postRepository.create(post);
 
     post.apply(new PostCreatedEvent(post.getId()));

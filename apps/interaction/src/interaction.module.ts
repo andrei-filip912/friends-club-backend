@@ -17,6 +17,7 @@ import { ReactionEventHandlers } from './reaction/events';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ReactionQueryHandlers } from './reaction/queries';
 import { ReactionDtoRepository } from './reaction/db/reaction-dto.repository';
+import { UserController } from './user/user.controller';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ReactionDtoRepository } from './reaction/db/reaction-dto.repository';
         MONGODB_URI: Joi.string().required(),
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_INTERACTION_QUEUE: Joi.string().required(),
+        RABBIT_MQ_USER_INTERACTION_QUEUE: Joi.string().required(),
       }),
       envFilePath: './apps/interaction/.env',
     }),
@@ -39,7 +41,7 @@ import { ReactionDtoRepository } from './reaction/db/reaction-dto.repository';
     RmqModule,
     CqrsModule,
   ],
-  controllers: [PostController, ReactionController],
+  controllers: [PostController, ReactionController, UserController],
   providers: [
     ReactionEntityRepository,
     ReactionDtoRepository,

@@ -13,9 +13,13 @@ export class ReactionEntityRepository extends AbstractRepository<
 > {
   constructor(
     @InjectModel(ReactionSchema.name)
-    reactionModel: Model<ReactionSchema>,
-    reactionSchemaFactory: ReactionSchemaFactory,
+    public reactionModel: Model<ReactionSchema>,
+    public reactionSchemaFactory: ReactionSchemaFactory,
   ) {
     super(reactionModel, reactionSchemaFactory);
+  }
+
+  async deleteUserReactions(userId: string): Promise<void> {
+    await this.reactionModel.deleteMany({ userId: userId }).exec();
   }
 }

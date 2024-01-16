@@ -12,6 +12,7 @@ export class PostDbEntityFactory
       id: post.getId(),
       caption: post.getCaption(),
       image_id: post.getImageId(),
+      userId: post.getUserId(),
     };
   }
   createFromDbEntity(postDbEntity: PostDbEntity): Post {
@@ -19,6 +20,7 @@ export class PostDbEntityFactory
       postDbEntity.id,
       postDbEntity.caption,
       postDbEntity.image_id,
+      postDbEntity.userId,
     );
   }
 }

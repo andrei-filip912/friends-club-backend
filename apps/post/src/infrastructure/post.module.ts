@@ -22,6 +22,7 @@ import { PostDto } from '../application/dto/post.dto';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from '../application/health.controller';
 import { HttpModule } from '@nestjs/axios';
+import { UserController } from '../user/user.controller';
 
 @Module({
   imports: [
@@ -40,17 +41,19 @@ import { HttpModule } from '@nestjs/axios';
         MYSQL_SSL_PATH: Joi.string().required(),
         AUTH0_AUDIENCE: Joi.string().required(),
         AUTH0_DOMAIN: Joi.string().required(),
+        RABBIT_MQ_USER_POST_QUEUE: Joi.string().required(),
       }),
       envFilePath: './apps/post/.env',
     }),
     RmqModule.register({ queueNames: [INTERACTION_SERVICE, UPLOAD_SERVICE] }),
+    RmqModule,
     CqrsModule,
     TypeOrmModule.forFeature([PostDbEntity, PostDto]),
     SqlDatabaseModule,
     TerminusModule,
-    HttpModule
+    HttpModule,
   ],
-  controllers: [PostController, HealthController],
+  controllers: [PostController, HealthController, UserController],
   providers: [
     PostRepository,
     PostDbEntity,
