@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Req,
   UnauthorizedException,
@@ -21,7 +22,8 @@ export class UserController {
   }
 
   @Delete(':id')
-  deleteUser(
+  @HttpCode(204)
+  async deleteUser(
     @Param('id') userId: string,
     @Req() req: AuthRequest,
   ): Promise<void> {
@@ -29,6 +31,6 @@ export class UserController {
       throw new UnauthorizedException('Ids do not match');
     }
 
-    return this.userService.deleteUser(userId);
+    await this.userService.deleteUser(userId);
   }
 }
