@@ -1,6 +1,11 @@
 import { AuthorizationGuard, SqlDatabaseModule } from '@friends-club/common';
-import { CanActivate, ExecutionContext, INestApplication } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  INestApplication,
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { CreatePostRequest } from 'apps/post/src/application/dto/create-post-request.dto';
 import { DeletePostRequest } from 'apps/post/src/application/dto/delete-post-request.dto';
 import { UpdatePostCaptionRequest } from 'apps/post/src/application/dto/update-post-caption-request.dto';
 import { Readable } from 'stream';
@@ -8,7 +13,6 @@ import * as request from 'supertest';
 import { PostRepository } from '../../src/infrastructure/post.db-entity.repository';
 import { PostModule } from '../../src/infrastructure/post.module';
 import { SqlMockModule } from '../utils/TypeORMSQLITETestingModule';
-import { CreatePostRequest } from 'apps/post/src/application/dto/create-post-request.dto';
 
 // mock values
 const image: Express.Multer.File = {
@@ -23,7 +27,8 @@ const image: Express.Multer.File = {
   filename: 'image.jpg',
   path: '/path/to/destination/image.jpg',
 };
-
+const mockToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 const userId = 'auth0|d23d2ef0effdv0kw';
 
 describe('PostService (Integration)', () => {
@@ -180,5 +185,57 @@ describe('PostService (Integration)', () => {
         await postRepository.findOneById(initialPost.id);
       }).rejects.toThrow();
     });
+  });
+});
+
+describe('authorization tests', () => {
+  let app: INestApplication;
+  let postRepository: PostRepository;
+
+  beforeEach(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [PostModule],
+    })
+      .overrideModule(SqlDatabaseModule)
+      .useModule(SqlMockModule)
+      .compile();
+
+    postRepository = moduleFixture.get<PostRepository>(PostRepository);
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+  it('should return 401 for creating a post without token', async () => {
+    // arrange
+    const createPostRequest = {
+      caption: 'Beautiful sunset at the beach',
+      image: undefined,
+    };
+
+    // act & assert
+    await request(app.getHttpServer())
+      .post('/post')
+      .send(createPostRequest)
+      .expect(401);
+  });
+
+  it('should return 401 for creating a post with a bad token', async () => {
+    // arrange
+    const createPostRequest = {
+      caption: 'Beautiful sunset at the beach',
+      image: undefined,
+    };
+
+    // act & assert
+    await request(app.getHttpServer())
+      .post('/post')
+      .set('Authorization', `Bearer ${mockToken}`)
+      .send(createPostRequest)
+      .expect(401);
   });
 });
