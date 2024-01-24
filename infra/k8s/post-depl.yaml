@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: post
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -21,7 +21,7 @@ spec:
         image: af912/post-friends-club:latest
         resources:
           limits:
-            memory: "400Mi"
+            memory: "128Mi"
             cpu: "500m"
         envFrom:
         - secretRef:
