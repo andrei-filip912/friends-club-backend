@@ -5,7 +5,7 @@ import { ReactionCreatedEvent } from './reaction-create.event';
 export class ReactionCreatedHandler
   implements IEventHandler<ReactionCreatedEvent>
 {
-  async handle({ reactionId }: ReactionCreatedEvent) {
-    console.log(`AuditEvent reaction created: ${reactionId}`);
+  async handle(event: ReactionCreatedEvent) {
+    console.log(`AuditEvent | Reaction created: ${event.toSting()}`);
   }
 }

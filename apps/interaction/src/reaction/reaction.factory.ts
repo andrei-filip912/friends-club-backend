@@ -21,7 +21,13 @@ export class ReactionFactory implements EntityFactory<Reaction> {
       reactionType,
     );
     await this.reactionRepository.create(reaction);
-    reaction.apply(new ReactionCreatedEvent(reaction.getId()));
+    reaction.apply(
+      new ReactionCreatedEvent(
+        reaction.getId(),
+        reaction.getUserId(),
+        reaction.getReactionType(),
+      ),
+    );
     return reaction;
   }
 
@@ -43,7 +49,13 @@ export class ReactionFactory implements EntityFactory<Reaction> {
     };
 
     await this.reactionRepository.upsert(filterQuery, reaction);
-    reaction.apply(new ReactionCreatedEvent(reaction.getId()));
+    reaction.apply(
+      new ReactionCreatedEvent(
+        reaction.getId(),
+        reaction.getUserId(),
+        reaction.getReactionType(),
+      ),
+    );
     return reaction;
   }
 }

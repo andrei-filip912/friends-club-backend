@@ -2,6 +2,7 @@ import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteReactionCommand } from './delete-reaction.command';
 import { ReactionEntityRepository } from '../../db/reaction-entity.repository';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ReactionDeletedEvent } from '../../events/reaction-deleted/reaction-deleted.event';
 
 @CommandHandler(DeleteReactionCommand)
 export class DeleteReactionHandler
@@ -30,5 +31,12 @@ export class DeleteReactionHandler
     }
 
     await this.reactionRepository.delete({ _id: reaction.getId() });
+    reaction.apply(
+      new ReactionDeletedEvent(
+        reaction.getId(),
+        reaction.getUserId(),
+        reaction.getReactionType(),
+      ),
+    );
   }
 }

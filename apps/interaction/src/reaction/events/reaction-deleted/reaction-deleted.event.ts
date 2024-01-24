@@ -1,6 +1,6 @@
 import { ReactionType } from '@friends-club/common';
 
-export class ReactionCreatedEvent {
+export class ReactionDeletedEvent {
   constructor(
     public readonly id: string,
     public readonly userId: string,
@@ -8,6 +8,6 @@ export class ReactionCreatedEvent {
   ) {}
 
   toSting() {
-    return `Reaction created { id: ${this.id}, userId: ${this.userId}, type: ${this.type}}}`;
+    return `Reaction deleted { id: ${this.id}, userId: ${this.userId}, type: ${this.type}}}`;
   }
 }
